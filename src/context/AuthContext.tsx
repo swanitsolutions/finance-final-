@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { User, UserRole } from '../types';
 import { apiClient } from '../lib/api/apiClient';
 import { db } from '../lib/storage/mockDatabase';
+import { useNotification } from './NotificationContext';
 
 interface AuthContextType {
   user: User | null;
@@ -22,6 +23,7 @@ const AUTH_STORAGE_KEY = 'loanease_auth_session';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
+  const { success } = useNotification();
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -94,6 +96,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUser(null);
     setToken(null);
     localStorage.removeItem(AUTH_STORAGE_KEY);
+    success('Signed Out Successfully', 'You have been safely signed out.');
     try {
       navigate(redirectPath, { replace: true });
     } catch {
