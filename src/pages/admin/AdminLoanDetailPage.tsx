@@ -47,16 +47,16 @@ export const AdminLoanDetailPage: React.FC = () => {
         <div className="flex items-center gap-3">
           <Link
             to="/admin/loans"
-            className="p-2 bg-white rounded-xl border border-[#DFE7F0] hover:bg-gray-50 text-[#172B4D] transition-colors"
+            className="p-2 bg-white rounded-xl border border-[#DFE5E9] hover:bg-[#F3F5F6] text-[#172B3A] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold text-[#172B4D]">Audit File: {loan.id}</h2>
+              <h2 className="text-xl font-bold text-[#172B3A]">Audit File: {loan.id}</h2>
               <StatusBadge status={loan.status} size="sm" />
             </div>
-            <p className="text-xs text-[#687B94] mt-0.5">
+            <p className="text-xs text-[#536473] mt-0.5">
               Customer: {loan.customerName} ({loan.customerEmail})
             </p>
           </div>
@@ -64,92 +64,92 @@ export const AdminLoanDetailPage: React.FC = () => {
 
         <button
           onClick={() => window.print()}
-          className="px-4 py-2 bg-white border border-[#DFE7F0] hover:bg-gray-50 rounded-xl text-xs font-semibold text-[#172B4D] flex items-center gap-1.5 transition-colors self-start sm:self-auto"
+          className="px-4 py-2 bg-white border border-[#DFE5E9] hover:bg-[#F3F5F6] rounded-xl text-xs font-semibold text-[#172B3A] flex items-center gap-1.5 transition-colors self-start sm:self-auto"
         >
-          <Printer className="w-3.5 h-3.5 text-[#687B94]" />
+          <Printer className="w-3.5 h-3.5 text-[#7B8994]" />
           <span>Print Sanction Dossier</span>
         </button>
       </div>
 
       {/* Grid: Borrower profile summary & Loan metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-3 text-xs">
-          <h3 className="font-bold text-sm text-[#172B4D] pb-2 border-b border-gray-100 flex items-center gap-2">
-            <User className="w-4 h-4 text-[#5145CD]" /> Borrower Profile
+        <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-3 text-xs">
+          <h3 className="font-bold text-sm text-[#172B3A] pb-2 border-b border-[#DFE5E9] flex items-center gap-2">
+            <User className="w-4 h-4 text-[#612536]" /> Borrower Profile
           </h3>
           <div className="space-y-1.5">
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Full Legal Name:</span>
-              <span className="font-semibold text-[#172B4D]">{loan.customerName}</span>
+              <span className="text-[#536473]">Full Legal Name:</span>
+              <span className="font-semibold text-[#172B3A]">{loan.customerName}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Email Address:</span>
-              <span className="text-[#172B4D]">{loan.customerEmail}</span>
+              <span className="text-[#536473]">Email Address:</span>
+              <span className="text-[#172B3A]">{loan.customerEmail}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Mobile Number:</span>
-              <span className="text-[#172B4D]">{loan.customerPhone || 'Verified on file'}</span>
+              <span className="text-[#536473]">Mobile Number:</span>
+              <span className="text-[#172B3A]">{loan.customerPhone || 'Verified on file'}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Employment Type:</span>
-              <span className="font-semibold text-[#172B4D]">{loan.employmentType || 'Salaried'}</span>
+              <span className="text-[#536473]">Employment Type:</span>
+              <span className="font-semibold text-[#172B3A]">{loan.employmentType || 'Salaried'}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-3 text-xs">
-          <h3 className="font-bold text-sm text-[#172B4D] pb-2 border-b border-gray-100 flex items-center gap-2">
-            <FileText className="w-4 h-4 text-[#5145CD]" /> Sanction Terms
+        <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-3 text-xs">
+          <h3 className="font-bold text-sm text-[#172B3A] pb-2 border-b border-[#DFE5E9] flex items-center gap-2">
+            <FileText className="w-4 h-4 text-[#153755]" /> Sanction Terms
           </h3>
           <div className="space-y-1.5">
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Principal Disbursed:</span>
-              <span className="font-bold text-[#172B4D] tabular-nums">{formatINR(loan.principalAmount)}</span>
+              <span className="text-[#536473]">Principal Disbursed:</span>
+              <span className="font-bold text-[#172B3A] tabular-nums">{formatINR(loan.principalAmount)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Annual Percentage Rate:</span>
-              <span className="font-semibold text-[#172B4D]">{loan.annualInterestRate}% p.a.</span>
+              <span className="text-[#536473]">Annual Percentage Rate:</span>
+              <span className="font-semibold text-[#172B3A]">{loan.annualInterestRate}% p.a.</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Tenure Duration:</span>
-              <span className="font-semibold text-[#172B4D]">{loan.tenureMonths} Months</span>
+              <span className="text-[#536473]">Tenure Duration:</span>
+              <span className="font-semibold text-[#172B3A]">{loan.tenureMonths} Months</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Monthly EMI:</span>
-              <span className="font-bold text-[#5145CD] tabular-nums">{formatINR(loan.monthlyEmi)}</span>
+              <span className="text-[#536473]">Monthly EMI:</span>
+              <span className="font-bold text-[#612536] tabular-nums">{formatINR(loan.monthlyEmi)}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-3 text-xs">
-          <h3 className="font-bold text-sm text-[#172B4D] pb-2 border-b border-gray-100 flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#159A78]" /> Ledger Standing
+        <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-3 text-xs">
+          <h3 className="font-bold text-sm text-[#172B3A] pb-2 border-b border-[#DFE5E9] flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-[#218568]" /> Ledger Standing
           </h3>
           <div className="space-y-1.5">
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Total Paid:</span>
-              <span className="font-bold text-[#159A78] tabular-nums">{formatINR(loan.paidAmount)}</span>
+              <span className="text-[#536473]">Total Paid:</span>
+              <span className="font-bold text-[#218568] tabular-nums">{formatINR(loan.paidAmount)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Outstanding Balance:</span>
-              <span className="font-bold text-[#DC5263] tabular-nums">{formatINR(loan.remainingAmount)}</span>
+              <span className="text-[#536473]">Outstanding Balance:</span>
+              <span className="font-bold text-[#C9414D] tabular-nums">{formatINR(loan.remainingAmount)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#687B94]">Total Lifetime Amount:</span>
-              <span className="font-semibold text-[#172B4D] tabular-nums">{formatINR(loan.totalRepayment)}</span>
+              <span className="text-[#536473]">Total Lifetime Amount:</span>
+              <span className="font-semibold text-[#172B3A] tabular-nums">{formatINR(loan.totalRepayment)}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Amortization Schedule Table */}
-      <div className="bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-4">
-        <h3 className="text-sm font-bold text-[#172B4D]">Generated Amortization Ledger</h3>
+      <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-4">
+        <h3 className="text-sm font-bold text-[#172B3A]">Generated Amortization Ledger</h3>
 
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left">
             <thead>
-              <tr className="border-b border-[#DFE7F0] text-[#687B94] uppercase tracking-wider text-[11px] bg-[#F4F8FC]">
+              <tr className="border-b border-[#DFE5E9] text-[#536473] uppercase tracking-wider text-[11px] bg-[#F5F8FA]">
                 <th className="py-3 px-4">#</th>
                 <th className="py-3 px-4">Due Date</th>
                 <th className="py-3 px-4">Principal Component</th>
@@ -160,31 +160,31 @@ export const AdminLoanDetailPage: React.FC = () => {
                 <th className="py-3 px-4 text-right">Audit Ref</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-[#DFE5E9]">
               {schedule.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50/70">
-                  <td className="py-3 px-4 font-mono font-bold text-[#172B4D]">
+                <tr key={item.id} className="hover:bg-[#F5F8FA]">
+                  <td className="py-3 px-4 font-mono font-bold text-[#172B3A]">
                     {item.instalmentNumber}
                   </td>
-                  <td className="py-3 px-4 font-medium text-[#172B4D]">
+                  <td className="py-3 px-4 font-medium text-[#172B3A]">
                     {formatDate(item.dueDate)}
                   </td>
-                  <td className="py-3 px-4 tabular-nums text-[#172B4D]">
+                  <td className="py-3 px-4 tabular-nums text-[#172B3A]">
                     {formatINR(item.principalComponent)}
                   </td>
-                  <td className="py-3 px-4 tabular-nums text-[#E7A23B] font-medium">
+                  <td className="py-3 px-4 tabular-nums text-[#C28A20] font-medium">
                     {formatINR(item.interestComponent)}
                   </td>
-                  <td className="py-3 px-4 tabular-nums font-bold text-[#5145CD]">
+                  <td className="py-3 px-4 tabular-nums font-bold text-[#612536]">
                     {formatINR(item.monthlyEmi)}
                   </td>
-                  <td className="py-3 px-4 tabular-nums text-[#687B94]">
+                  <td className="py-3 px-4 tabular-nums text-[#536473]">
                     {formatINR(item.remainingPrincipal)}
                   </td>
                   <td className="py-3 px-4">
                     <StatusBadge status={item.status} size="sm" />
                   </td>
-                  <td className="py-3 px-4 font-mono text-[11px] text-gray-400 text-right">
+                  <td className="py-3 px-4 font-mono text-[11px] text-[#7B8994] text-right">
                     {item.transactionRef || '—'}
                   </td>
                 </tr>

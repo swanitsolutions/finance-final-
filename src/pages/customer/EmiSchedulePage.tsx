@@ -64,29 +64,29 @@ export const EmiSchedulePage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#172B4D]">EMI Schedule</h2>
-          <p className="text-xs text-[#687B94] mt-0.5">
+          <h2 className="text-xl font-bold text-[#172B3A]">EMI Schedule</h2>
+          <p className="text-xs text-[#536473] mt-0.5">
             Complete reducing-balance amortization timeline for your active loans.
           </p>
         </div>
 
         <button
           onClick={() => window.print()}
-          className="self-start sm:self-auto px-4 py-2 bg-white border border-[#DFE7F0] hover:bg-gray-50 rounded-xl text-xs font-semibold text-[#172B4D] flex items-center gap-1.5 transition-colors"
+          className="self-start sm:self-auto px-4 py-2 bg-white border border-[#DFE5E9] hover:bg-[#F3F5F6] rounded-xl text-xs font-semibold text-[#172B3A] flex items-center gap-1.5 transition-colors"
         >
-          <Printer className="w-3.5 h-3.5 text-[#687B94]" />
+          <Printer className="w-3.5 h-3.5 text-[#7B8994]" />
           <span>Print Statement</span>
         </button>
       </div>
 
       {/* Loan Selector Bar */}
-      <div className="bg-white rounded-2xl border border-[#DFE7F0] p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+      <div className="bg-white rounded-2xl border border-[#DFE5E9] p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <label className="text-xs font-bold text-[#172B4D] shrink-0">Select Loan:</label>
+          <label className="text-xs font-bold text-[#172B3A] shrink-0">Select Loan:</label>
           <select
             value={selectedLoanId}
             onChange={(e) => handleLoanChange(e.target.value)}
-            className="w-full sm:w-auto px-3.5 py-2 text-xs rounded-xl border border-[#DFE7F0] bg-white font-medium focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30"
+            className="w-full sm:w-auto px-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] font-medium focus:outline-none focus:ring-2 focus:ring-[#612536]/30"
           >
             {loans.map((l) => (
               <option key={l.id} value={l.id}>
@@ -97,15 +97,15 @@ export const EmiSchedulePage: React.FC = () => {
         </div>
 
         {/* Status filters */}
-        <div className="flex items-center gap-1.5 bg-[#F4F8FC] p-1 rounded-xl border border-[#DFE7F0]">
+        <div className="flex items-center gap-1.5 bg-[#F5F8FA] p-1 rounded-xl border border-[#DFE5E9]">
           {['all', 'pending', 'paid'].map((status) => (
             <button
               key={status}
               onClick={() => setFilterStatus(status)}
               className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-colors ${
                 filterStatus === status
-                  ? 'bg-white text-[#12365A] shadow-xs'
-                  : 'text-[#687B94] hover:text-[#172B4D]'
+                  ? 'bg-[#612536] text-white shadow-xs'
+                  : 'text-[#536473] hover:text-[#172B3A]'
               }`}
             >
               {status}
@@ -116,28 +116,28 @@ export const EmiSchedulePage: React.FC = () => {
 
       {/* Loan Overview Strip */}
       {selectedLoan && (
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+        <div className="bg-white rounded-2xl border border-[#DFE5E9] p-5 shadow-xs grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
           <div>
-            <span className="text-[#687B94]">Principal</span>
-            <p className="font-bold text-[#172B4D] text-base mt-0.5 tabular-nums">
+            <span className="text-[#536473]">Principal</span>
+            <p className="font-bold text-[#153755] text-base mt-0.5 tabular-nums">
               {formatINR(selectedLoan.principalAmount)}
             </p>
           </div>
           <div>
-            <span className="text-[#687B94]">Monthly EMI</span>
-            <p className="font-bold text-[#5145CD] text-base mt-0.5 tabular-nums">
+            <span className="text-[#536473]">Monthly EMI</span>
+            <p className="font-bold text-[#612536] text-base mt-0.5 tabular-nums">
               {formatINR(selectedLoan.monthlyEmi)}
             </p>
           </div>
           <div>
-            <span className="text-[#687B94]">Interest Rate</span>
-            <p className="font-bold text-[#172B4D] text-base mt-0.5">
+            <span className="text-[#536473]">Interest Rate</span>
+            <p className="font-bold text-[#172B3A] text-base mt-0.5">
               {selectedLoan.annualInterestRate}% p.a.
             </p>
           </div>
           <div>
-            <span className="text-[#687B94]">Tenure</span>
-            <p className="font-bold text-[#172B4D] text-base mt-0.5">
+            <span className="text-[#536473]">Tenure</span>
+            <p className="font-bold text-[#172B3A] text-base mt-0.5">
               {selectedLoan.tenureMonths} Months
             </p>
           </div>
@@ -145,11 +145,11 @@ export const EmiSchedulePage: React.FC = () => {
       )}
 
       {/* Schedule Table */}
-      <div className="bg-white rounded-2xl border border-[#DFE7F0] shadow-xs overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#DFE5E9] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left">
             <thead>
-              <tr className="border-b border-[#DFE7F0] text-[#687B94] uppercase tracking-wider text-[11px] bg-[#F4F8FC]">
+              <tr className="border-b border-[#DFE5E9] text-[#536473] uppercase tracking-wider text-[11px] bg-[#F5F8FA]">
                 <th className="py-3 px-4">Instalment #</th>
                 <th className="py-3 px-4">Due Date</th>
                 <th className="py-3 px-4">Principal Component</th>
@@ -160,25 +160,25 @@ export const EmiSchedulePage: React.FC = () => {
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-[#DFE5E9]">
               {filteredItems.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50/70 transition-colors">
-                  <td className="py-3.5 px-4 font-mono font-bold text-[#172B4D]">
+                <tr key={item.id} className="hover:bg-[#F5F8FA] transition-colors">
+                  <td className="py-3.5 px-4 font-mono font-bold text-[#172B3A]">
                     #{item.instalmentNumber.toString().padStart(2, '0')}
                   </td>
-                  <td className="py-3.5 px-4 font-medium text-[#172B4D]">
+                  <td className="py-3.5 px-4 font-medium text-[#172B3A]">
                     {formatDate(item.dueDate)}
                   </td>
-                  <td className="py-3.5 px-4 tabular-nums text-[#172B4D]">
+                  <td className="py-3.5 px-4 tabular-nums text-[#172B3A]">
                     {formatINR(item.principalComponent)}
                   </td>
-                  <td className="py-3.5 px-4 tabular-nums text-[#E7A23B] font-medium">
+                  <td className="py-3.5 px-4 tabular-nums text-[#C28A20] font-medium">
                     {formatINR(item.interestComponent)}
                   </td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold text-[#5145CD]">
+                  <td className="py-3.5 px-4 tabular-nums font-bold text-[#612536]">
                     {formatINR(item.monthlyEmi)}
                   </td>
-                  <td className="py-3.5 px-4 tabular-nums text-[#687B94]">
+                  <td className="py-3.5 px-4 tabular-nums text-[#536473]">
                     {formatINR(item.remainingPrincipal)}
                   </td>
                   <td className="py-3.5 px-4">
@@ -186,7 +186,7 @@ export const EmiSchedulePage: React.FC = () => {
                   </td>
                   <td className="py-3.5 px-4 text-right">
                     {item.status === 'paid' ? (
-                      <span className="text-[11px] text-[#159A78] font-semibold flex items-center justify-end gap-1">
+                      <span className="text-[11px] text-[#218568] font-semibold flex items-center justify-end gap-1">
                         <CheckCircle2 className="w-3.5 h-3.5" /> Paid
                       </span>
                     ) : (
@@ -195,7 +195,7 @@ export const EmiSchedulePage: React.FC = () => {
                           setSelectedInstalment(item);
                           setPaymentModalOpen(true);
                         }}
-                        className="px-3 py-1 bg-[#159A78] hover:bg-[#0f7a5e] text-white rounded-lg text-xs font-semibold transition-colors"
+                        className="px-3 py-1 bg-[#218568] hover:bg-[#1b6b54] text-white rounded-lg text-xs font-semibold transition-colors"
                       >
                         Pay EMI
                       </button>

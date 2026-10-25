@@ -88,12 +88,12 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Customer Details Section */}
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-[#172B4D] pb-1 border-b border-[#DFE7F0]">
+            <h4 className="text-sm font-bold text-[#172B3A] pb-1 border-b border-[#DFE5E9]">
               Customer Details
             </h4>
 
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Full Name *
               </label>
               <input
@@ -102,12 +102,12 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Phone Number *
               </label>
               <input
@@ -116,12 +116,12 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Email *
               </label>
               <input
@@ -130,12 +130,12 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Address
               </label>
               <textarea
@@ -143,19 +143,19 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
                 rows={2}
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
               />
             </div>
           </div>
 
           {/* Loan Details Section */}
           <div className="space-y-4">
-            <h4 className="text-sm font-bold text-[#172B4D] pb-1 border-b border-[#DFE7F0]">
+            <h4 className="text-sm font-bold text-[#172B3A] pb-1 border-b border-[#DFE5E9]">
               Loan Details
             </h4>
 
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Loan Amount *
               </label>
               <input
@@ -170,13 +170,13 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
                 min={10000}
                 max={10000000}
                 required
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+                <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                   Interest Rate (%) *
                 </label>
                 <input
@@ -192,12 +192,12 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
                   min={1}
                   max={36}
                   required
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+                <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                   Loan Tenure (Months) *
                 </label>
                 <input
@@ -212,19 +212,19 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
                   min={1}
                   max={360}
                   required
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Loan Type *
               </label>
               <select
                 value={loanType}
                 onChange={(e) => setLoanType(e.target.value as LoanType)}
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD] bg-white"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536] bg-white text-[#172B3A]"
               >
                 <option value="Personal">Personal Loan</option>
                 <option value="Home">Home Loan</option>
@@ -238,7 +238,7 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
               <button
                 type="button"
                 onClick={() => handleCalculate()}
-                className="w-full px-3.5 py-2 bg-[#5145CD]/10 text-[#5145CD] hover:bg-[#5145CD]/20 text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors"
+                className="w-full px-3.5 py-2 bg-[#612536]/10 text-[#612536] hover:bg-[#612536]/20 text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors"
               >
                 <Calculator className="w-4 h-4" /> Calculate EMI
               </button>
@@ -247,28 +247,28 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
         </div>
 
         {/* EMI Calculation Summary Footer */}
-        <div className="bg-[#F4F8FC] border border-[#DFE7F0] rounded-xl p-4 grid grid-cols-3 text-center">
+        <div className="bg-[#F5F8FA] border border-[#DFE5E9] rounded-xl p-4 grid grid-cols-3 text-center">
           <div>
-            <p className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+            <p className="text-[11px] font-semibold text-[#536473] uppercase tracking-wider">
               Monthly EMI
             </p>
-            <p className="text-lg font-bold text-[#172B4D] mt-0.5 tabular-nums">
+            <p className="text-lg font-bold text-[#612536] mt-0.5 tabular-nums">
               {formatINR(calculation.monthlyEmi)}
             </p>
           </div>
-          <div className="border-x border-[#DFE7F0]">
-            <p className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+          <div className="border-x border-[#DFE5E9]">
+            <p className="text-[11px] font-semibold text-[#536473] uppercase tracking-wider">
               Total Interest
             </p>
-            <p className="text-lg font-bold text-[#E7A23B] mt-0.5 tabular-nums">
+            <p className="text-lg font-bold text-[#C28A20] mt-0.5 tabular-nums">
               {formatINR(calculation.totalInterest)}
             </p>
           </div>
           <div>
-            <p className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+            <p className="text-[11px] font-semibold text-[#536473] uppercase tracking-wider">
               Total Amount
             </p>
-            <p className="text-lg font-bold text-[#159A78] mt-0.5 tabular-nums">
+            <p className="text-lg font-bold text-[#218568] mt-0.5 tabular-nums">
               {formatINR(calculation.totalRepayment)}
             </p>
           </div>
@@ -279,14 +279,14 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl border border-[#DFE7F0] text-xs font-semibold text-[#172B4D] hover:bg-gray-50 transition-colors"
+            className="px-5 py-2.5 rounded-xl border border-[#DFE5E9] text-xs font-semibold text-[#172B3A] hover:bg-[#F3F5F6] transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2.5 rounded-xl bg-[#5145CD] hover:bg-[#4036B5] text-white text-xs font-semibold transition-colors shadow-sm disabled:opacity-50"
+            className="px-6 py-2.5 rounded-xl bg-[#612536] hover:bg-[#4C1C2B] text-white text-xs font-semibold transition-colors shadow-sm disabled:opacity-50"
           >
             {isSubmitting ? 'Creating...' : 'Save Loan'}
           </button>

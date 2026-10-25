@@ -91,16 +91,16 @@ export const LoanDetailPage: React.FC = () => {
         <div className="flex items-center gap-3">
           <Link
             to="/loans"
-            className="p-2 bg-white rounded-xl border border-[#DFE7F0] hover:bg-gray-50 text-[#172B4D] transition-colors"
+            className="p-2 bg-white rounded-xl border border-[#DFE5E9] hover:bg-[#F3F5F6] text-[#172B3A] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold text-[#172B4D]">Loan {loan.id}</h2>
+              <h2 className="text-xl font-bold text-[#172B3A]">Loan {loan.id}</h2>
               <StatusBadge status={loan.status} size="sm" />
             </div>
-            <p className="text-xs text-[#687B94] mt-0.5">
+            <p className="text-xs text-[#536473] mt-0.5">
               {loan.loanType} Financing • Disbursed {formatDate(loan.disbursementDate || loan.applicationDate)}
             </p>
           </div>
@@ -109,9 +109,9 @@ export const LoanDetailPage: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => window.print()}
-            className="px-3.5 py-2 bg-white border border-[#DFE7F0] hover:bg-gray-50 rounded-xl text-xs font-semibold text-[#172B4D] flex items-center gap-1.5 transition-colors"
+            className="px-3.5 py-2 bg-white border border-[#DFE5E9] hover:bg-[#F3F5F6] rounded-xl text-xs font-semibold text-[#172B3A] flex items-center gap-1.5 transition-colors"
           >
-            <Printer className="w-3.5 h-3.5 text-[#687B94]" />
+            <Printer className="w-3.5 h-3.5 text-[#7B8994]" />
             <span>Print Schedule</span>
           </button>
 
@@ -121,7 +121,7 @@ export const LoanDetailPage: React.FC = () => {
                 setSelectedInstalment(nextUnpaidItem);
                 setPaymentModalOpen(true);
               }}
-              className="px-4 py-2 bg-[#159A78] hover:bg-[#0f7a5e] text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-colors"
+              className="px-4 py-2 bg-[#218568] hover:bg-[#1b6b54] text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-colors"
             >
               <CreditCard className="w-3.5 h-3.5" />
               <span>Pay Next EMI ({formatINR(loan.monthlyEmi)})</span>
@@ -132,92 +132,92 @@ export const LoanDetailPage: React.FC = () => {
 
       {/* Summary KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs">
-          <span className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+        <div className="bg-[#0D343B] text-white rounded-2xl p-5 shadow-xs border border-[#0D343B]">
+          <span className="text-[11px] font-semibold text-[#D9E0E5] uppercase tracking-wider">
             Sanctioned Principal
           </span>
-          <p className="text-2xl font-bold text-[#172B4D] mt-1 tabular-nums">
+          <p className="text-2xl font-bold text-white mt-1 tabular-nums">
             {formatINR(loan.principalAmount)}
           </p>
-          <p className="text-xs text-[#687B94] mt-1">
+          <p className="text-xs text-[#D9E0E5] mt-1">
             Interest: {loan.annualInterestRate}% p.a.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs">
-          <span className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+        <div className="bg-[#6B751B] text-white rounded-2xl p-5 shadow-xs border border-[#6B751B]">
+          <span className="text-[11px] font-semibold text-[#D9E0E5] uppercase tracking-wider">
             Monthly EMI
           </span>
-          <p className="text-2xl font-bold text-[#5145CD] mt-1 tabular-nums">
+          <p className="text-2xl font-bold text-white mt-1 tabular-nums">
             {formatINR(loan.monthlyEmi)}
           </p>
-          <p className="text-xs text-[#687B94] mt-1">
+          <p className="text-xs text-[#D9E0E5] mt-1">
             Tenure: {loan.tenureMonths} Months
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs">
-          <span className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+        <div className="bg-[#E65327] text-white rounded-2xl p-5 shadow-xs border border-[#E65327]">
+          <span className="text-[11px] font-semibold text-[#D9E0E5] uppercase tracking-wider">
             Total Paid to Date
           </span>
-          <p className="text-2xl font-bold text-[#159A78] mt-1 tabular-nums">
+          <p className="text-2xl font-bold text-white mt-1 tabular-nums">
             {formatINR(loan.paidAmount)}
           </p>
-          <p className="text-xs text-[#159A78] mt-1 font-medium">
+          <p className="text-xs text-white mt-1 font-medium">
             {progressPercent}% Repaid
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs">
-          <span className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+        <div className="bg-[#E8EA68] text-[#0D2740] rounded-2xl p-5 shadow-xs border border-[#DFE5E9]">
+          <span className="text-[11px] font-semibold text-[#0D2740]/80 uppercase tracking-wider">
             Remaining Balance
           </span>
-          <p className="text-2xl font-bold text-[#DC5263] mt-1 tabular-nums">
+          <p className="text-2xl font-bold text-[#0D2740] mt-1 tabular-nums">
             {formatINR(loan.remainingAmount)}
           </p>
-          <p className="text-xs text-[#687B94] mt-1">
+          <p className="text-xs text-[#0D2740]/80 mt-1">
             Total Sanction: {formatINR(loan.totalRepayment)}
           </p>
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-2">
+      <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-2">
         <div className="flex justify-between items-center text-xs">
-          <span className="font-semibold text-[#172B4D]">Repayment Completion</span>
-          <span className="font-bold text-[#5145CD] tabular-nums">{progressPercent}%</span>
+          <span className="font-semibold text-[#172B3A]">Repayment Completion</span>
+          <span className="font-bold text-[#612536] tabular-nums">{progressPercent}%</span>
         </div>
-        <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+        <div className="w-full h-3 bg-[#EDF2F5] rounded-full overflow-hidden">
           <div
-            className="h-full bg-[#159A78] rounded-full transition-all duration-500"
+            className="h-full bg-[#218568] rounded-full transition-all duration-500"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
-        <div className="flex justify-between items-center text-[11px] text-[#687B94] pt-1">
+        <div className="flex justify-between items-center text-[11px] text-[#536473] pt-1">
           <span>Paid: {formatINR(loan.paidAmount)}</span>
           <span>Remaining: {formatINR(loan.remainingAmount)}</span>
         </div>
       </div>
 
       {/* Amortization Schedule Table */}
-      <div className="bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-4">
+      <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 className="text-base font-bold text-[#172B4D]">Amortization Schedule</h3>
-            <p className="text-xs text-[#687B94]">
+            <h3 className="text-base font-bold text-[#172B3A]">Amortization Schedule</h3>
+            <p className="text-xs text-[#536473]">
               Month-by-month breakdown of principal, interest, and remaining balance.
             </p>
           </div>
 
-          <div className="flex items-center gap-1 bg-[#F4F8FC] p-1 rounded-xl border border-[#DFE7F0]">
+          <div className="flex items-center gap-1 bg-[#F5F8FA] p-1 rounded-xl border border-[#DFE5E9]">
             {(['all', 'pending', 'paid'] as const).map((filter) => (
               <button
                 key={filter}
                 onClick={() => setScheduleFilter(filter)}
                 className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-colors ${
                   scheduleFilter === filter
-                    ? 'bg-white text-[#12365A] shadow-xs'
-                    : 'text-[#687B94] hover:text-[#172B4D]'
+                    ? 'bg-[#612536] text-white shadow-xs'
+                    : 'text-[#536473] hover:text-[#172B3A]'
                 }`}
               >
                 {filter}
@@ -229,7 +229,7 @@ export const LoanDetailPage: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left">
             <thead>
-              <tr className="border-b border-[#DFE7F0] text-[#687B94] uppercase tracking-wider text-[11px] bg-[#F4F8FC]/50">
+              <tr className="border-b border-[#DFE5E9] text-[#536473] uppercase tracking-wider text-[11px] bg-[#F5F8FA]">
                 <th className="py-3 px-4">#</th>
                 <th className="py-3 px-4">Due Date</th>
                 <th className="py-3 px-4">Principal</th>
@@ -240,25 +240,25 @@ export const LoanDetailPage: React.FC = () => {
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-[#DFE5E9]">
               {filteredSchedule.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50/70 transition-colors">
-                  <td className="py-3.5 px-4 font-mono font-bold text-[#172B4D]">
+                <tr key={item.id} className="hover:bg-[#F5F8FA] transition-colors">
+                  <td className="py-3.5 px-4 font-mono font-bold text-[#172B3A]">
                     {item.instalmentNumber}
                   </td>
-                  <td className="py-3.5 px-4 font-medium text-[#172B4D]">
+                  <td className="py-3.5 px-4 font-medium text-[#172B3A]">
                     {formatDate(item.dueDate)}
                   </td>
-                  <td className="py-3.5 px-4 tabular-nums text-[#172B4D]">
+                  <td className="py-3.5 px-4 tabular-nums text-[#172B3A]">
                     {formatINR(item.principalComponent)}
                   </td>
-                  <td className="py-3.5 px-4 tabular-nums text-[#E7A23B] font-medium">
+                  <td className="py-3.5 px-4 tabular-nums text-[#C28A20] font-medium">
                     {formatINR(item.interestComponent)}
                   </td>
-                  <td className="py-3.5 px-4 tabular-nums font-bold text-[#5145CD]">
+                  <td className="py-3.5 px-4 tabular-nums font-bold text-[#612536]">
                     {formatINR(item.monthlyEmi)}
                   </td>
-                  <td className="py-3.5 px-4 tabular-nums text-[#687B94]">
+                  <td className="py-3.5 px-4 tabular-nums text-[#536473]">
                     {formatINR(item.remainingPrincipal)}
                   </td>
                   <td className="py-3.5 px-4">
@@ -266,7 +266,7 @@ export const LoanDetailPage: React.FC = () => {
                   </td>
                   <td className="py-3.5 px-4 text-right">
                     {item.status === 'paid' ? (
-                      <span className="text-[11px] text-[#159A78] font-semibold">
+                      <span className="text-[11px] text-[#218568] font-semibold">
                         Paid on {formatDate(item.paidDate)}
                       </span>
                     ) : (
@@ -275,7 +275,7 @@ export const LoanDetailPage: React.FC = () => {
                           setSelectedInstalment(item);
                           setPaymentModalOpen(true);
                         }}
-                        className="px-2.5 py-1 bg-[#159A78] hover:bg-[#0f7a5e] text-white rounded-lg text-[11px] font-semibold transition-colors"
+                        className="px-2.5 py-1 bg-[#218568] hover:bg-[#1b6b54] text-white rounded-lg text-[11px] font-semibold transition-colors"
                       >
                         Pay
                       </button>

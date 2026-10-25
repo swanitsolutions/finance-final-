@@ -53,7 +53,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F8FC] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F3F5F6] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link to="/" className="inline-block focus:outline-none mb-4">
           <Logo size="lg" showTagline={true} />
@@ -61,50 +61,50 @@ export const LoginPage: React.FC = () => {
       </div>
 
       <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
-        <div className="bg-white py-8 px-6 sm:px-10 rounded-2xl border border-[#DFE7F0] shadow-sm">
+        <div className="bg-white py-8 px-6 sm:px-10 rounded-2xl border border-[#DFE5E9] shadow-sm">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#172B4D]">Welcome Back!</h2>
-            <p className="text-xs text-[#687B94] mt-1">Log in to access your account.</p>
+            <h2 className="text-2xl font-bold text-[#172B3A]">Welcome Back!</h2>
+            <p className="text-xs text-[#536473] mt-1">Log in to access your LoanEase account.</p>
           </div>
 
           {/* Quick Demo Autofill Badges */}
-          <div className="mb-6 p-3 bg-[#F4F8FC] rounded-xl border border-[#DFE7F0]">
-            <p className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider mb-2">
+          <div className="mb-6 p-3 bg-[#F5F8FA] rounded-xl border border-[#DFE5E9]">
+            <p className="text-[11px] font-semibold text-[#7B8994] uppercase tracking-wider mb-2">
               Quick Test Credentials:
             </p>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => handleAutofill('customer')}
-                className="flex-1 py-1.5 px-2 bg-white hover:bg-gray-50 border border-[#DFE7F0] rounded-lg text-xs font-medium text-[#172B4D] flex items-center justify-center gap-1.5 transition-colors"
+                className="flex-1 py-1.5 px-2 bg-white hover:bg-[#F3F5F6] border border-[#DFE5E9] rounded-lg text-xs font-medium text-[#172B3A] flex items-center justify-center gap-1.5 transition-colors"
               >
-                <UserCheck className="w-3.5 h-3.5 text-[#159A78]" />
+                <UserCheck className="w-3.5 h-3.5 text-[#218568]" />
                 Customer (Priya)
               </button>
               <button
                 type="button"
                 onClick={() => handleAutofill('admin')}
-                className="flex-1 py-1.5 px-2 bg-white hover:bg-gray-50 border border-[#DFE7F0] rounded-lg text-xs font-medium text-[#172B4D] flex items-center justify-center gap-1.5 transition-colors"
+                className="flex-1 py-1.5 px-2 bg-white hover:bg-[#F3F5F6] border border-[#DFE5E9] rounded-lg text-xs font-medium text-[#172B3A] flex items-center justify-center gap-1.5 transition-colors"
               >
-                <ShieldCheck className="w-3.5 h-3.5 text-[#5145CD]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#612536]" />
                 Admin (Admin)
               </button>
             </div>
           </div>
 
           {errorMessage && (
-            <div className="mb-4 p-3 bg-[#FFF0F1] border border-[#DC5263]/30 rounded-xl text-xs text-[#9b2130]">
+            <div className="mb-4 p-3 bg-[#FCEBED] border border-[#C9414D]/30 rounded-xl text-xs text-[#C9414D]">
               {errorMessage}
             </div>
           )}
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Email or Username
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#7B8994]">
                   <User className="w-4 h-4" />
                 </div>
                 <input
@@ -113,20 +113,20 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setIdentifier(e.target.value)}
                   placeholder="Enter email or username"
                   required
-                  className="w-full pl-9 pr-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                  className="w-full pl-9 pr-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
                 />
               </div>
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs font-semibold text-[#172B4D]">Password</label>
-                <Link to="/forgot-password" className="text-xs text-[#5145CD] hover:underline">
+                <label className="text-xs font-semibold text-[#172B3A]">Password</label>
+                <Link to="/forgot-password" className="text-xs text-[#612536] hover:underline">
                   Forgot Password?
                 </Link>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#7B8994]">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -135,12 +135,12 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
-                  className="w-full pl-9 pr-10 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                  className="w-full pl-9 pr-10 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#7B8994] hover:text-[#172B3A]"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -153,16 +153,16 @@ export const LoginPage: React.FC = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-[#DFE7F0] text-[#5145CD] focus:ring-[#5145CD]"
+                  className="rounded border-[#DFE5E9] text-[#612536] focus:ring-[#612536]"
                 />
-                <span className="text-xs text-[#687B94]">Remember me for 30 days</span>
+                <span className="text-xs text-[#536473]">Remember me for 30 days</span>
               </label>
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2.5 bg-[#5145CD] hover:bg-[#4036B5] text-white rounded-xl text-xs font-semibold transition-colors shadow-xs flex items-center justify-center gap-2"
+              className="w-full py-2.5 bg-[#612536] hover:bg-[#4C1C2B] text-white rounded-xl text-xs font-semibold transition-colors shadow-xs flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -178,9 +178,9 @@ export const LoginPage: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-xs text-[#687B94]">
+          <div className="mt-6 text-center text-xs text-[#536473]">
             Don't have an account?{' '}
-            <Link to="/register" className="font-semibold text-[#5145CD] hover:underline">
+            <Link to="/register" className="font-semibold text-[#612536] hover:underline">
               Create an account
             </Link>
           </div>

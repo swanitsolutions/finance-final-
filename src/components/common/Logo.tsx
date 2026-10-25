@@ -34,7 +34,7 @@ export const Logo: React.FC<LogoProps> = ({
         className={`${iconSizes[size]} rounded-lg flex items-center justify-center shrink-0 shadow-xs transition-transform hover:scale-105 ${
           isLight
             ? 'bg-white/10 text-white border border-white/20'
-            : 'bg-[#12365A] text-white'
+            : 'bg-[#153755] text-white'
         }`}
       >
         <svg
@@ -57,7 +57,7 @@ export const Logo: React.FC<LogoProps> = ({
           <line x1="3" y1="18" x2="21" y2="18" />
           <line x1="2" y1="21" x2="22" y2="21" />
           {/* Small Coin Motif in Center */}
-          <circle cx="12" cy="14" r="1.75" fill="#E7A23B" stroke="none" />
+          <circle cx="12" cy="14" r="1.75" fill="#E8EA68" stroke="none" />
         </svg>
       </div>
 
@@ -65,7 +65,7 @@ export const Logo: React.FC<LogoProps> = ({
         <div className="flex items-center gap-1.5">
           <span
             className={`font-bold tracking-tight ${titleSizes[size]} ${
-              isLight ? 'text-white' : 'text-[#12365A]'
+              isLight ? 'text-white' : 'text-[#153755]'
             }`}
           >
             LoanEase
@@ -75,7 +75,7 @@ export const Logo: React.FC<LogoProps> = ({
               className={`text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded ${
                 isLight
                   ? 'bg-white/15 text-white/90'
-                  : 'bg-[#5145CD]/10 text-[#5145CD]'
+                  : 'bg-[#612536]/10 text-[#612536]'
               }`}
             >
               {portalSubtitle}
@@ -85,7 +85,7 @@ export const Logo: React.FC<LogoProps> = ({
         {showTagline && (
           <span
             className={`text-[11px] font-medium ${
-              isLight ? 'text-white/70' : 'text-[#687B94]'
+              isLight ? 'text-white/70' : 'text-[#7B8994]'
             }`}
           >
             Your Dreams, Our Support.

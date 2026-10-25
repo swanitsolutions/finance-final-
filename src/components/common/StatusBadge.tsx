@@ -27,36 +27,40 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'md' })
     case 'paid':
     case 'completed':
     case 'approved':
-      bg = 'bg-[#E7F7F0]';
-      text = 'text-[#159A78]';
-      dot = 'bg-[#159A78]';
-      label = norm === 'paid' ? 'Paid' : norm === 'completed' ? 'Completed' : 'Approved';
-      break;
-
     case 'active':
-      bg = 'bg-[#E7F7F0]';
-      text = 'text-[#159A78]';
-      dot = 'bg-[#159A78]';
-      label = 'Active';
+      bg = 'bg-[#E6F4EE]';
+      text = 'text-[#218568]';
+      dot = 'bg-[#218568]';
+      label =
+        norm === 'paid'
+          ? 'Paid'
+          : norm === 'completed'
+          ? 'Completed'
+          : norm === 'approved'
+          ? 'Approved'
+          : 'Active';
       break;
 
     case 'pending':
-      bg = 'bg-[#FFF5DF]';
-      text = 'text-[#E7A23B]';
-      dot = 'bg-[#E7A23B]';
+      bg = 'bg-[#FFF4D9]';
+      text = 'text-[#C28A20]';
+      dot = 'bg-[#C28A20]';
       label = 'Pending';
       break;
 
     case 'overdue':
     case 'rejected':
     case 'failed':
-      bg = 'bg-[#FFF0F1]';
-      text = 'text-[#DC5263]';
-      dot = 'bg-[#DC5263]';
+      bg = 'bg-[#FCEBED]';
+      text = 'text-[#C9414D]';
+      dot = 'bg-[#C9414D]';
       label = norm === 'overdue' ? 'Overdue' : norm === 'rejected' ? 'Rejected' : 'Failed';
       break;
 
     default:
+      bg = 'bg-[#E9F2FA]';
+      text = 'text-[#2879B9]';
+      dot = 'bg-[#2879B9]';
       label = status;
   }
 
@@ -64,7 +68,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'md' })
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 font-semibold rounded-full ${bg} ${text} ${sizeClasses} select-none`}
+      className={`inline-flex items-center gap-1.5 font-semibold rounded-full ${bg} ${text} ${sizeClasses} select-none border border-transparent`}
     >
       <span className={`w-1.5 h-1.5 rounded-full ${dot}`} />
       <span>{label}</span>

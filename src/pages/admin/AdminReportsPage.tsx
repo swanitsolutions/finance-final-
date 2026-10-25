@@ -18,10 +18,10 @@ export const AdminReportsPage: React.FC = () => {
   const [dateRange, setDateRange] = useState('2024-Q3');
 
   const portfolioByType = [
-    { type: 'Personal', count: 45, principal: 1850000, color: '#5145CD' },
-    { type: 'Home', count: 22, principal: 1950000, color: '#159A78' },
-    { type: 'Vehicle', count: 18, principal: 650000, color: '#2588D8' },
-    { type: 'Business', count: 13, principal: 400000, color: '#E7A23B' },
+    { type: 'Personal', count: 45, principal: 1850000, color: '#612536' },
+    { type: 'Home', count: 22, principal: 1950000, color: '#218568' },
+    { type: 'Vehicle', count: 18, principal: 650000, color: '#0D343B' },
+    { type: 'Business', count: 13, principal: 400000, color: '#E65327' },
   ];
 
   const collectionsByMonth = [
@@ -51,8 +51,8 @@ export const AdminReportsPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-[#172B4D]">Portfolio Reports & Analytics</h2>
-          <p className="text-xs text-[#687B94] mt-0.5">
+          <h2 className="text-xl font-bold text-[#172B3A]">Portfolio Reports & Analytics</h2>
+          <p className="text-xs text-[#536473] mt-0.5">
             Institutional portfolio health, repayment velocity, and yield analytics.
           </p>
         </div>
@@ -60,16 +60,16 @@ export const AdminReportsPage: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={handleExportSummaryCSV}
-            className="px-3.5 py-2 bg-white border border-[#DFE7F0] hover:bg-gray-50 rounded-xl text-xs font-semibold text-[#172B4D] flex items-center gap-1.5 transition-colors shadow-2xs"
+            className="px-3.5 py-2 bg-white border border-[#DFE5E9] hover:bg-[#F3F5F6] rounded-xl text-xs font-semibold text-[#172B3A] flex items-center gap-1.5 transition-colors shadow-2xs"
           >
-            <Download className="w-3.5 h-3.5 text-[#5145CD]" />
+            <Download className="w-3.5 h-3.5 text-[#612536]" />
             <span>Export Report (CSV)</span>
           </button>
           <button
             onClick={() => window.print()}
-            className="px-3.5 py-2 bg-white border border-[#DFE7F0] hover:bg-gray-50 rounded-xl text-xs font-semibold text-[#172B4D] flex items-center gap-1.5 transition-colors shadow-2xs"
+            className="px-3.5 py-2 bg-white border border-[#DFE5E9] hover:bg-[#F3F5F6] rounded-xl text-xs font-semibold text-[#172B3A] flex items-center gap-1.5 transition-colors shadow-2xs"
           >
-            <Printer className="w-3.5 h-3.5 text-[#687B94]" />
+            <Printer className="w-3.5 h-3.5 text-[#7B8994]" />
             <span>Print Report</span>
           </button>
         </div>
@@ -77,49 +77,49 @@ export const AdminReportsPage: React.FC = () => {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs">
-          <span className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+        <div className="bg-[#0D343B] text-white rounded-2xl p-5 shadow-xs border border-[#0D343B]">
+          <span className="text-[11px] font-semibold text-[#D9E0E5] uppercase tracking-wider">
             Total Loan Book
           </span>
-          <p className="text-2xl font-bold text-[#172B4D] tabular-nums mt-1">₹ 48,50,000</p>
-          <p className="text-xs text-[#159A78] mt-1 font-medium">+7.2% quarterly growth</p>
+          <p className="text-2xl font-bold text-white tabular-nums mt-1">₹ 48,50,000</p>
+          <p className="text-xs text-[#E8EA68] mt-1 font-medium">+7.2% quarterly growth</p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs">
-          <span className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+        <div className="bg-[#6B751B] text-white rounded-2xl p-5 shadow-xs border border-[#6B751B]">
+          <span className="text-[11px] font-semibold text-[#D9E0E5] uppercase tracking-wider">
             Total Collections
           </span>
-          <p className="text-2xl font-bold text-[#159A78] tabular-nums mt-1">₹ 14,25,000</p>
-          <p className="text-xs text-[#687B94] mt-1">98.4% timely clearing rate</p>
+          <p className="text-2xl font-bold text-white tabular-nums mt-1">₹ 14,25,000</p>
+          <p className="text-xs text-white/90 mt-1">98.4% timely clearing rate</p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs">
-          <span className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+        <div className="bg-[#E65327] text-white rounded-2xl p-5 shadow-xs border border-[#E65327]">
+          <span className="text-[11px] font-semibold text-[#D9E0E5] uppercase tracking-wider">
             Gross NPA / Default Risk
           </span>
-          <p className="text-2xl font-bold text-[#DC5263] tabular-nums mt-1">1.8%</p>
-          <p className="text-xs text-[#159A78] mt-1 font-medium">Well below 4.0% industry threshold</p>
+          <p className="text-2xl font-bold text-white tabular-nums mt-1">1.8%</p>
+          <p className="text-xs text-white/90 mt-1 font-medium">Well below 4.0% industry threshold</p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#DFE7F0] p-5 shadow-xs">
-          <span className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+        <div className="bg-[#E8EA68] text-[#0D2740] rounded-2xl p-5 shadow-xs border border-[#DFE5E9]">
+          <span className="text-[11px] font-semibold text-[#0D2740]/80 uppercase tracking-wider">
             Average Portfolio Yield
           </span>
-          <p className="text-2xl font-bold text-[#5145CD] tabular-nums mt-1">11.4% p.a.</p>
-          <p className="text-xs text-[#687B94] mt-1">Reducing balance annualized</p>
+          <p className="text-2xl font-bold text-[#0D2740] tabular-nums mt-1">11.4% p.a.</p>
+          <p className="text-xs text-[#0D2740]/80 mt-1">Reducing balance annualized</p>
         </div>
       </div>
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Collections Trend Bar Chart */}
-        <div className="lg:col-span-7 bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-4">
+        <div className="lg:col-span-7 bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-bold text-[#172B4D]">Monthly Repayment Collections (INR)</h3>
-              <p className="text-xs text-[#687B94]">Realized collections vs projected schedule</p>
+              <h3 className="text-sm font-bold text-[#172B3A]">Monthly Repayment Collections (INR)</h3>
+              <p className="text-xs text-[#536473]">Realized collections vs projected schedule</p>
             </div>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#E7F7F0] text-[#159A78]">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#E6F4EE] text-[#218568]">
               FY 2024-25
             </span>
           </div>
@@ -127,30 +127,30 @@ export const AdminReportsPage: React.FC = () => {
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={collectionsByMonth} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f3f6" />
-                <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#687B94' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#DFE5E9" />
+                <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#7B8994' }} />
                 <YAxis
                   tickLine={false}
                   axisLine={false}
-                  tick={{ fontSize: 11, fill: '#687B94' }}
+                  tick={{ fontSize: 11, fill: '#7B8994' }}
                   tickFormatter={(val) => `₹${val / 1000}k`}
                 />
                 <Tooltip
                   formatter={(val: any) => [formatINR(Number(val)), 'Amount']}
-                  contentStyle={{ backgroundColor: '#12365A', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                  contentStyle={{ backgroundColor: '#0D2740', borderRadius: '8px', color: '#fff', fontSize: '11px', border: 'none' }}
                 />
-                <Bar dataKey="collected" fill="#5145CD" radius={[4, 4, 0, 0]} name="Actual Collections" />
-                <Bar dataKey="projected" fill="#DFE7F0" radius={[4, 4, 0, 0]} name="Projected Schedule" />
+                <Bar dataKey="collected" fill="#218568" radius={[4, 4, 0, 0]} name="Actual Collections" />
+                <Bar dataKey="projected" fill="#DFE5E9" radius={[4, 4, 0, 0]} name="Projected Schedule" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Portfolio by Loan Type Pie Chart */}
-        <div className="lg:col-span-5 bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-4 flex flex-col justify-between">
+        <div className="lg:col-span-5 bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-4 flex flex-col justify-between">
           <div>
-            <h3 className="text-sm font-bold text-[#172B4D]">Portfolio by Loan Category</h3>
-            <p className="text-xs text-[#687B94] mb-2">Exposure across financing categories</p>
+            <h3 className="text-sm font-bold text-[#172B3A]">Portfolio by Loan Category</h3>
+            <p className="text-xs text-[#536473] mb-2">Exposure across financing categories</p>
 
             <div className="relative h-44 flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
@@ -170,23 +170,23 @@ export const AdminReportsPage: React.FC = () => {
                   </Pie>
                   <Tooltip
                     formatter={(val: any) => [formatINR(Number(val)), 'Principal']}
-                    contentStyle={{ backgroundColor: '#12365A', borderRadius: '8px', color: '#fff', fontSize: '11px' }}
+                    contentStyle={{ backgroundColor: '#0D2740', borderRadius: '8px', color: '#fff', fontSize: '11px', border: 'none' }}
                   />
                 </PieChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          <div className="space-y-2 text-xs border-t border-gray-100 pt-3">
+          <div className="space-y-2 text-xs border-t border-[#DFE5E9] pt-3">
             {portfolioByType.map((item) => (
               <div key={item.type} className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                  <span className="font-semibold text-[#172B4D]">{item.type} Loans</span>
+                  <span className="font-semibold text-[#172B3A]">{item.type} Loans</span>
                 </div>
                 <div className="text-right">
-                  <span className="font-bold tabular-nums text-[#172B4D]">{formatINR(item.principal)}</span>
-                  <span className="text-[11px] text-[#687B94] ml-2">({item.count} loans)</span>
+                  <span className="font-bold tabular-nums text-[#172B3A]">{formatINR(item.principal)}</span>
+                  <span className="text-[11px] text-[#536473] ml-2">({item.count} loans)</span>
                 </div>
               </div>
             ))}

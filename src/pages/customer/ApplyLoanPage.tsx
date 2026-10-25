@@ -68,24 +68,24 @@ export const ApplyLoanPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-[#172B4D]">Apply for a New Loan</h2>
-        <p className="text-xs text-[#687B94] mt-0.5">
+        <h2 className="text-xl font-bold text-[#172B3A]">Apply for a New Loan</h2>
+        <p className="text-xs text-[#536473] mt-0.5">
           Submit your financing request with instant reducing-balance EMI appraisal.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Form Container */}
-        <div className="lg:col-span-7 bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs">
+        <div className="lg:col-span-7 bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Select Loan Category *
               </label>
               <select
                 value={loanType}
                 onChange={(e) => setLoanType(e.target.value as LoanType)}
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD] bg-white font-medium text-[#172B4D]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536] bg-white font-medium text-[#172B3A]"
               >
                 <option value="Personal">Personal Loan (12.0% p.a.)</option>
                 <option value="Home">Home Loan (9.5% p.a.)</option>
@@ -97,10 +97,10 @@ export const ApplyLoanPage: React.FC = () => {
 
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="text-xs font-semibold text-[#172B4D]">
+                <label className="text-xs font-semibold text-[#172B3A]">
                   Requested Loan Amount *
                 </label>
-                <span className="text-xs font-bold text-[#5145CD] tabular-nums">
+                <span className="text-xs font-bold text-[#612536] tabular-nums">
                   {formatINR(amount)}
                 </span>
               </div>
@@ -112,22 +112,22 @@ export const ApplyLoanPage: React.FC = () => {
                 value={amount}
                 onChange={(e) => setAmount(Number(e.target.value))}
                 required
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD] font-medium"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536] font-medium"
               />
-              <p className="text-[11px] text-[#687B94] mt-1">
+              <p className="text-[11px] text-[#7B8994] mt-1">
                 Eligible range: ₹20,000 to ₹50,00,000
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+                <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                   Tenure (Months) *
                 </label>
                 <select
                   value={tenureMonths}
                   onChange={(e) => setTenureMonths(Number(e.target.value))}
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD] bg-white font-medium"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536] bg-white font-medium text-[#172B3A]"
                 >
                   <option value={12}>12 Months (1 Year)</option>
                   <option value={18}>18 Months (1.5 Years)</option>
@@ -139,13 +139,13 @@ export const ApplyLoanPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+                <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                   Employment Type *
                 </label>
                 <select
                   value={employmentType}
                   onChange={(e) => setEmploymentType(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD] bg-white font-medium"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536] bg-white font-medium text-[#172B3A]"
                 >
                   <option value="Salaried">Salaried Employee</option>
                   <option value="Self-Employed">Self-Employed / Business</option>
@@ -155,7 +155,7 @@ export const ApplyLoanPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Net Monthly Take-Home Income (INR) *
               </label>
               <input
@@ -164,12 +164,12 @@ export const ApplyLoanPage: React.FC = () => {
                 value={monthlyIncome}
                 onChange={(e) => setMonthlyIncome(Number(e.target.value))}
                 required
-                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#172B4D] mb-1">
+              <label className="block text-xs font-semibold text-[#172B3A] mb-1">
                 Purpose of Loan *
               </label>
               <textarea
@@ -178,19 +178,19 @@ export const ApplyLoanPage: React.FC = () => {
                 value={purpose}
                 onChange={(e) => setPurpose(e.target.value)}
                 required
-                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE7F0] focus:outline-none focus:ring-2 focus:ring-[#5145CD]/30 focus:border-[#5145CD]"
+                className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
               />
             </div>
 
-            <div className="p-3 bg-[#F4F8FC] rounded-xl border border-[#DFE7F0] text-[11px] text-[#687B94] flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#159A78] shrink-0" />
+            <div className="p-3 bg-[#F5F8FA] rounded-xl border border-[#DFE5E9] text-[11px] text-[#536473] flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-[#218568] shrink-0" />
               <span>Applications are verified in accordance with automated banking guidelines.</span>
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 bg-[#5145CD] hover:bg-[#4036B5] text-white rounded-xl text-xs font-semibold shadow-xs transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3 bg-[#612536] hover:bg-[#4C1C2B] text-white rounded-xl text-xs font-semibold shadow-xs transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {isSubmitting ? (
                 'Submitting Application...'
@@ -206,45 +206,45 @@ export const ApplyLoanPage: React.FC = () => {
 
         {/* Live Calculation Preview Summary */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-white rounded-2xl border border-[#DFE7F0] p-6 shadow-xs space-y-4">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#172B4D] pb-3 border-b border-gray-100">
-              <Calculator className="w-4 h-4 text-[#5145CD]" />
+          <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-4">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#172B3A] pb-3 border-b border-[#DFE5E9]">
+              <Calculator className="w-4 h-4 text-[#612536]" />
               <span>Repayment Estimation</span>
             </div>
 
-            <div className="p-4 bg-[#F4F8FC] rounded-xl border border-[#DFE7F0] text-center">
-              <p className="text-[11px] font-semibold text-[#687B94] uppercase tracking-wider">
+            <div className="p-5 bg-[#0D343B] text-white rounded-xl text-center shadow-xs">
+              <p className="text-[11px] font-semibold text-[#D9E0E5] uppercase tracking-wider">
                 Projected Monthly EMI
               </p>
-              <p className="text-3xl font-extrabold text-[#5145CD] tabular-nums mt-1">
+              <p className="text-3xl font-extrabold text-[#E8EA68] tabular-nums mt-1">
                 {formatINR(emiCalc.monthlyEmi)}
               </p>
-              <p className="text-[11px] text-[#687B94] mt-1">
+              <p className="text-[11px] text-[#D9E0E5] mt-1">
                 Payable monthly over {tenureMonths} instalments
               </p>
             </div>
 
             <div className="space-y-2 text-xs">
-              <div className="flex justify-between py-1 border-b border-gray-100">
-                <span className="text-[#687B94]">Requested Principal</span>
-                <span className="font-bold text-[#172B4D] tabular-nums">{formatINR(amount)}</span>
+              <div className="flex justify-between py-1 border-b border-[#DFE5E9]">
+                <span className="text-[#536473]">Requested Principal</span>
+                <span className="font-bold text-[#172B3A] tabular-nums">{formatINR(amount)}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-gray-100">
-                <span className="text-[#687B94]">Applicable Interest Rate</span>
-                <span className="font-semibold text-[#172B4D]">{interestRate}% p.a.</span>
+              <div className="flex justify-between py-1 border-b border-[#DFE5E9]">
+                <span className="text-[#536473]">Applicable Interest Rate</span>
+                <span className="font-semibold text-[#172B3A]">{interestRate}% p.a.</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-gray-100">
-                <span className="text-[#687B94]">Total Interest Payable</span>
-                <span className="font-bold text-[#E7A23B] tabular-nums">{formatINR(emiCalc.totalInterest)}</span>
+              <div className="flex justify-between py-1 border-b border-[#DFE5E9]">
+                <span className="text-[#536473]">Total Interest Payable</span>
+                <span className="font-bold text-[#C28A20] tabular-nums">{formatINR(emiCalc.totalInterest)}</span>
               </div>
               <div className="flex justify-between pt-1">
-                <span className="font-semibold text-[#172B4D]">Total Repayment</span>
-                <span className="font-bold text-[#159A78] text-sm tabular-nums">{formatINR(emiCalc.totalRepayment)}</span>
+                <span className="font-semibold text-[#172B3A]">Total Repayment</span>
+                <span className="font-bold text-[#218568] text-sm tabular-nums">{formatINR(emiCalc.totalRepayment)}</span>
               </div>
             </div>
 
             <div className="pt-2">
-              <div className="bg-[#E7F7F0] rounded-xl p-3 text-[11px] text-[#0f5c49] space-y-1">
+              <div className="bg-[#E6F4EE] rounded-xl p-3 text-[11px] text-[#218568] space-y-1">
                 <p className="font-semibold flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5" /> High Approval Likelihood
                 </p>

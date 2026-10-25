@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User, UserRole } from '../types';
 import { apiClient } from '../lib/api/apiClient';
 import { db } from '../lib/storage/mockDatabase';
@@ -11,7 +12,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (identifier: string, password: string) => Promise<{ success: boolean; message?: string; role?: UserRole }>;
   register: (data: { fullName: string; email: string; phone: string; username: string; password: string }) => Promise<{ success: boolean; message?: string }>;
-  logout: () => void;
+  logout: (redirectPath?: string) => void;
   quickSwitchUser: (username: 'priya' | 'admin') => void;
 }
 
@@ -20,6 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const AUTH_STORAGE_KEY = 'loanease_auth_session';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -88,10 +90,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return { success: false, message: res.message || 'Registration failed' };
   };
 
-  const logout = () => {
+  const logout = (redirectPath: string = '/') => {
     setUser(null);
     setToken(null);
     localStorage.removeItem(AUTH_STORAGE_KEY);
+    try {
+      navigate(redirectPath, { replace: true });
+    } catch {
+      window.location.href = redirectPath;
+    }
   };
 
   const quickSwitchUser = (username: 'priya' | 'admin') => {
