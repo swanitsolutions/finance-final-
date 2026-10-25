@@ -1,0 +1,1629 @@
+# PROJECT: LoanEase — Complete Loan & EMI Financial Management System
+
+Act as a senior full-stack engineer, fintech product designer, UX researcher, database architect, and application security engineer.
+
+Build a complete, responsive, production-oriented web application called **LoanEase**. The application must provide a polished public landing page, functional login and registration, a customer dashboard, and a separate administrator dashboard.
+
+Use the two attached reference images as visual and functional guidance:
+- Reference image 1 defines the overall landing page, customer dashboard, admin dashboard, and loan creation form.
+- Reference image 2 defines the functional requirements, user permissions, architecture, database relationships, API endpoints, loan calculations, reports, and security expectations.
+
+Do not merely reproduce the screenshots. Create a cohesive, original, professionally designed application with consistent spacing, realistic content, working interactions, proper routing, and a maintainable codebase.
+
+The finished result must feel like a real financial services product designed by an experienced product team, not a generic AI-generated dashboard template.
+
+---
+
+## 1. CORE APPLICATION FLOW
+
+Implement the following complete navigation flow.
+
+Public visitor:
+Landing Page → Login or Register → Authentication → Role-Based Dashboard
+
+New customer:
+Register → Validate Form → Create Account → Sign In or Automatically Authenticate → Customer Dashboard
+
+Existing customer:
+Login → Validate Credentials → Authenticate → Customer Dashboard
+
+Administrator:
+Login → Verify Administrator Role → Admin Dashboard
+
+Customer actions:
+Dashboard → Apply for Loan → Submit Application → Track Status → View Approved Loan → View EMI Schedule → Record Payment → View Payment History
+
+Administrator actions:
+Admin Dashboard → Manage Customers → Review Applications → Approve or Reject Loans → Manage Payments → View Reports → Manage Settings
+
+Important:
+- Every button, link, form, tab, dropdown, filter, and chart control must have a meaningful behavior.
+- Protect authenticated routes.
+- Redirect users according to their actual authenticated role.
+- Customers must never access administrator-only pages or data.
+- An administrator must not be created merely because someone selects "Admin" in the registration form.
+- Do not implement authentication as a fake login that accepts any password.
+- Do not show a dashboard before authentication succeeds.
+- Preserve user sessions appropriately and handle logout correctly.
+- Include useful loading, success, empty, and error states.
+
+---
+
+## 2. TECHNOLOGY STACK
+
+### Frontend
+- React with TypeScript.
+- Vite as the development and build tool.
+- React Router for navigation.
+- Tailwind CSS for styling.
+- shadcn/ui where appropriate for accessible interface components.
+- Lucide React for icons.
+- Recharts for financial charts.
+- React Hook Form and Zod for form handling and validation.
+- A reliable toast notification system.
+- A date utility library for date formatting and EMI schedules.
+
+Use stable, mutually compatible package versions. Do not introduce incompatible Vite, esbuild, React, or plugin dependencies. Avoid unnecessary packages.
+
+### Backend
+The intended backend is:
+- Python 3.12 or another supported Python 3 version.
+- Django 5.x or another compatible supported Django release.
+- Django REST Framework.
+- PostgreSQL.
+- JWT-based authentication using a maintained Django JWT library.
+- Django password hashing and server-side validation.
+- OpenAPI documentation with Swagger UI.
+- Celery and Redis for optional background tasks, such as scheduled notifications.
+
+### Architecture requirements
+The React frontend and Django backend must be separate, clearly structured applications.
+
+If Google AI Studio cannot directly create and run the complete Django/PostgreSQL backend in the current environment, implement the complete frontend first, with:
+1. A typed API service layer.
+2. A configurable API base URL using environment variables.
+3. A mock development adapter with realistic sample data.
+4. Clearly defined backend API contracts.
+5. A clean integration boundary for the real Django REST API.
+
+The mock adapter must never be mistaken for production authentication or production financial storage.
+
+Do not silently replace Django with Firebase or Supabase while claiming the requested Django backend has been implemented. If an alternative backend is proposed, document it explicitly.
+
+Create an implementation that runs in the available environment without requiring unavailable services to render the initial page.
+
+---
+
+## 3. DESIGN SYSTEM AND BRAND IDENTITY
+
+Brand name: LoanEase
+
+Tagline: Your Dreams, Our Support.
+
+Supporting phrase: Better Loans. Brighter Futures.
+
+The visual identity should communicate:
+- Trust
+- Financial security
+- Simplicity
+- Transparency
+- Reliability
+- Personal financial growth
+
+### Color palette
+
+Use this palette consistently throughout the application.
+
+Primary navy: #12365A
+
+Dark navy: #0B2442
+
+Primary indigo: #5145CD
+
+Hover indigo: #4036B5
+
+Page background: #F4F8FC
+
+Card background: #FFFFFF
+
+Border: #DFE7F0
+
+Main text: #172B4D
+
+Secondary text: #687B94
+
+Success green: #159A78
+
+Success background: #E7F7F0
+
+Warning amber: #E7A23B
+
+Warning background: #FFF5DF
+
+Error red: #DC5263
+
+Error background: #FFF0F1
+
+Information blue: #2588D8
+
+Use navy for branding and navigation, indigo for primary calls to action, and green, amber, and red for financial status indicators.
+
+Avoid using bright purple gradients across the entire interface. Use gradients only for limited decorative elements where they genuinely improve the design.
+
+### Typography
+
+Use **Inter** as the primary font throughout the application.
+
+Use a practical type scale:
+- Hero heading: 48–56px on large desktop screens.
+- Section heading: 28–36px.
+- Dashboard heading: 24–28px.
+- Card heading: 14–16px.
+- Body text: 14–16px.
+- Labels and metadata: 12–13px.
+
+Use font weights 400, 500, 600, and 700.
+
+Use tabular numerals for money, interest rates, balances, and other numeric financial data.
+
+Use consistent line heights, readable contrast, and a clear visual hierarchy.
+
+### Component styling
+
+- Cards: white backgrounds, 10–14px rounded corners, subtle borders.
+- Buttons: consistent height, radius, focus states, and hover behavior.
+- Inputs: clearly visible labels, useful placeholders, validation messages, and accessible focus rings.
+- Tables: restrained separators, readable columns, and clear status indicators.
+- Charts: clean grid lines, readable labels, and consistent status colors.
+- Icons: use Lucide icons consistently at approximately 16–22px.
+- Shadows: subtle and limited to elements that need depth.
+- Animations: short, restrained transitions of approximately 150–250ms.
+- Layout: consistent 4px-based spacing scale.
+- No excessive glassmorphism, glowing borders, floating gradients, or unnecessary decorative elements.
+
+Use real layout structure rather than screenshots embedded as backgrounds.
+
+---
+
+## 4. PUBLIC LANDING PAGE
+
+Route: /
+
+Create a complete marketing and authentication entry experience.
+
+### 4.1 Header
+
+Create a clean white or very light blue header.
+
+Left side:
+- A custom LoanEase logo.
+- A minimal financial institution icon using a bank building and a small coin motif.
+- LoanEase wordmark.
+- Small tagline: "Your Dreams, Our Support."
+
+Center navigation:
+- Home
+- About
+- Services
+- How It Works
+- Contact
+
+Right side:
+- Login button.
+- Register button styled in indigo.
+
+Header requirements:
+- Responsive mobile navigation.
+- Sticky header on scroll, if appropriate.
+- Active navigation states.
+- Smooth scrolling to page sections.
+- Login and Register must navigate to actual application routes.
+
+Do not use emoji as the primary brand logo. Create a clean SVG logo or use a consistent Lucide icon combination.
+
+### 4.2 Hero section
+
+Create a two-column hero layout with a pale blue background.
+
+Left column:
+Small trust label:
+"Secure • Simple • Trusted"
+
+Main heading:
+"Your Financial Goals, Our Priority"
+
+Emphasize "Our Priority" with the indigo accent color.
+
+Supporting text:
+"Apply for loans, track your EMIs, and manage your finances all in one place. Fast, secure, and easy."
+
+Primary CTA:
+"Get Started"
+
+Secondary CTA:
+"Learn More"
+
+Get Started navigates to /register.
+
+Learn More scrolls to the services or how-it-works section.
+
+Below the buttons, show four compact feature highlights:
+1. Quick Loan Approval — Track applications without unnecessary paperwork.
+2. Easy EMI Tracking — Know your monthly payments and due dates.
+3. Secure & Reliable — Protected access to your financial information.
+4. Dedicated Support — Find help when you need it.
+
+Each feature should have a small colored icon, a short title, and one line of supporting text.
+
+Right column:
+Display a high-quality, authentic financial or home-ownership visual. A photograph of hands holding a miniature house or a tasteful home-finance illustration is suitable.
+
+Add a restrained handwritten-style supporting phrase:
+"Build Your Future With Us"
+
+Use a local image asset or a reliable image URL. If the image cannot load, provide a visually consistent fallback. Do not make the page depend on an unavailable external image.
+
+### 4.3 Trust strip
+
+Below the hero, add a subtle strip containing three or four concise statements, such as:
+- Transparent repayment schedules
+- Clear loan information
+- Secure account access
+- Easy payment tracking
+
+Do not invent regulatory approvals, bank partnerships, customer totals, or claims about guaranteed loan approval.
+
+### 4.4 About section
+
+Heading:
+"Financial management made simpler."
+
+Explain how LoanEase helps users:
+- Apply for loans.
+- Review loan details.
+- Calculate estimated monthly EMIs.
+- Track repayment schedules.
+- Monitor payment history.
+- Access relevant financial reports.
+
+Use a restrained illustration and concise copy.
+
+### 4.5 Services section
+
+Create four service cards:
+
+1. Loan Management
+   Apply for loans and track application status.
+
+2. EMI Calculator
+   Estimate monthly instalments and total repayment.
+
+3. Payment Tracking
+   View recorded payments, upcoming instalments, and overdue amounts.
+
+4. Financial Reports
+   Review loan summaries and repayment activity.
+
+Cards should have consistent heights, clear headings, small icons, and concise descriptions.
+
+### 4.6 How It Works
+
+Use a four-step visual process:
+
+Step 1: Create Your Account
+
+Step 2: Submit Your Loan Application
+
+Step 3: Track Approval and Loan Details
+
+Step 4: Manage EMIs and Payments
+
+Use a simple horizontal process on desktop and a vertical timeline on mobile.
+
+### 4.7 EMI calculator preview
+
+Add an interactive calculator to the public landing page.
+
+Inputs:
+- Loan amount in INR.
+- Annual interest rate.
+- Loan tenure in months.
+
+Outputs:
+- Estimated monthly EMI.
+- Total interest payable.
+- Total repayment amount.
+
+Update the results when inputs change or when the user clicks Calculate.
+
+Use Indian rupee formatting, such as ₹1,25,000.
+
+Clearly label results as estimates. Do not imply that the calculation constitutes a loan offer or approval.
+
+### 4.8 Final CTA
+
+Heading:
+"Take the next step toward your financial goals."
+
+Supporting text:
+"Keep your loan details, repayment schedule, and payment history organized in one place."
+
+Buttons:
+- Create Free Account
+- Sign In
+
+### 4.9 Footer
+
+Include:
+- Logo and short brand description.
+- Navigation links.
+- Services.
+- Contact information placeholders that are clearly configurable.
+- Privacy Policy.
+- Terms and Conditions.
+- Copyright year generated dynamically.
+
+Do not invent a physical office address, real phone number, or company registration details.
+
+---
+
+## 5. AUTHENTICATION PAGES
+
+Routes:
+- /login
+- /register
+- /forgot-password
+- /reset-password
+
+Design these pages using the same color system, typography, and components as the landing page.
+
+Use a centered authentication card with a compact brand header, clear page title, accessible form labels, and a restrained decorative visual.
+
+### 5.1 Login
+
+Heading: "Welcome Back!"
+
+Supporting text: "Log in to access your account."
+
+Fields:
+- Email or username.
+- Password.
+- Show/hide password toggle.
+
+Additional controls:
+- Remember Me, only if implemented with appropriate session semantics.
+- Forgot Password link.
+- Login button with loading state.
+- Link to registration.
+
+Validation:
+- Required fields.
+- Valid email format when using email.
+- Clear server error messages without leaking sensitive information.
+- Prevent duplicate submissions while loading.
+
+On successful authentication:
+- Store or manage tokens using a documented, secure approach.
+- Load the authenticated user's profile and role.
+- Redirect customers to /dashboard.
+- Redirect administrators to /admin/dashboard.
+- Restore the intended protected route only after role verification.
+
+Do not hardcode credentials in the production application.
+
+### 5.2 Registration
+
+Heading: "Create Your LoanEase Account"
+
+Supporting text: "A simpler way to stay on top of your finances."
+
+Fields:
+- Full name.
+- Email address.
+- Phone number.
+- Username.
+- Password.
+- Confirm password.
+- Agreement to the Terms and Privacy Policy.
+
+Validation:
+- Required fields.
+- Valid email.
+- Valid phone format.
+- Password policy enforced by the backend.
+- Password confirmation must match.
+- Username and email uniqueness checked by the server.
+- Clear inline error messages.
+- Accessible success and failure feedback.
+
+Public registration must always create a Customer account.
+
+Never allow users to assign themselves an administrator role through a form field, query parameter, local storage, or API request.
+
+After registration, display a success state and guide the user to sign in, or establish a session if the backend explicitly supports that flow.
+
+### 5.3 Password recovery
+
+Provide a functional forgot-password workflow.
+
+The backend must issue secure, expiring reset tokens or links. Avoid revealing whether an email exists in the system.
+
+If email delivery is not configured, provide a clear development-only message rather than pretending that an email was sent.
+
+---
+
+## 6. CUSTOMER DASHBOARD
+
+Route: /dashboard
+
+Create a complete authenticated dashboard inspired by the first reference image.
+
+### Layout
+
+Desktop:
+- Fixed or collapsible navy sidebar.
+- Main dashboard area.
+- Optional right-side contextual panel when space allows.
+
+Mobile:
+- Collapsible navigation drawer.
+- Stacked summary cards.
+- Horizontally scrollable data tables when necessary.
+- No clipped buttons, forms, or charts.
+
+### Sidebar navigation
+
+Use these items:
+- Dashboard
+- My Loans
+- Apply for Loan
+- EMI Schedule
+- EMI Payments
+- Payment History
+- Profile
+- Support
+- Logout
+
+Use Lucide icons and consistent active-state styling.
+
+### Dashboard header
+
+Display:
+- "Hello, [Customer Name]"
+- A short welcome message.
+- Notification control.
+- Profile avatar or initials.
+- Account menu.
+
+Load the customer name and profile information from the authenticated user. Do not use a hardcoded identity in the production flow.
+
+### Financial summary cards
+
+Show four cards:
+1. Total Loans
+2. Total Loan Amount
+3. Total Paid
+4. Remaining Amount
+
+Use the following definitions:
+- Total Loans: number of the customer's relevant loan records, with status filters documented.
+- Total Loan Amount: total principal for approved or active loans.
+- Total Paid: sum of valid recorded payments, without double-counting transactions.
+- Remaining Amount: outstanding balance based on the repayment ledger and applicable charges.
+
+Do not calculate the outstanding balance by blindly subtracting unrelated transaction amounts from the original principal.
+
+Include meaningful icons, INR amounts, and small contextual labels.
+
+### My Loan Details
+
+Create a compact loan overview card displaying:
+- Loan ID.
+- Loan amount.
+- Interest rate.
+- Loan tenure.
+- Monthly EMI.
+- Next due date.
+- Loan status.
+
+Add a View Loan Details button.
+
+If the customer has multiple loans, allow selecting a loan.
+
+### Repayment progress
+
+Create a doughnut chart showing:
+- Amount paid.
+- Outstanding amount.
+
+Show a percentage in the center.
+
+Calculate the percentage from actual payment and outstanding figures. Handle zero-value loans safely.
+
+Include a legend and accessible labels.
+
+### Recent Transactions
+
+Show recent transactions in a table or compact list.
+
+Fields:
+- Transaction ID.
+- Payment date.
+- Loan ID.
+- Amount.
+- Payment method.
+- Status.
+
+Add a View All link that opens payment history.
+
+### Upcoming payments
+
+Display:
+- Loan ID.
+- EMI amount.
+- Due date.
+- Days remaining or overdue.
+- Payment status.
+
+Use green for paid, amber for pending, and red for overdue.
+
+Do not mark payments as paid merely because the user clicked a payment button.
+
+### Right-side quick actions
+
+Include:
+- Apply for Loan.
+- View EMI Schedule.
+- Make Payment.
+- Contact Support.
+
+Each action must navigate to the appropriate route or open a working form.
+
+Include a small motivational illustration or banner only if it does not compete with the financial information.
+
+### Empty states
+
+When the customer has no loans, show a useful empty state with an Apply for Loan CTA.
+
+When there are no payments, show a clear explanation rather than fabricated transactions.
+
+---
+
+## 7. MY LOANS AND LOAN APPLICATION
+
+Routes:
+- /loans
+- /loans/apply
+- /loans/:loanId
+
+### Loan listing
+
+Display the customer's loans with:
+- Loan ID.
+- Principal amount.
+- Interest rate.
+- Tenure.
+- EMI.
+- Application date.
+- Status.
+- Actions.
+
+Filters:
+- All
+- Pending
+- Approved
+- Active
+- Rejected
+- Completed
+
+Include search, pagination, and sorting where appropriate.
+
+### Loan application form
+
+Fields:
+- Loan type.
+- Requested loan amount.
+- Annual interest rate, when provided or determined by an authorized backend rule.
+- Tenure in months.
+- Employment or income information if required by the configured product.
+- Purpose of the loan.
+- Additional relevant information.
+
+Do not collect unnecessary sensitive documents or financial information merely to fill out a form.
+
+Customers must not be able to assign themselves an approved status or change an authorized interest rate.
+
+The server must validate eligibility and application data.
+
+On submission:
+- Validate the form.
+- Display a review summary.
+- Submit to the API.
+- Show a confirmation with the application ID.
+- Set the application status to Pending unless the backend explicitly determines otherwise.
+
+### Loan details
+
+Display:
+- Loan summary.
+- Application status.
+- Principal.
+- Annual interest rate.
+- Tenure.
+- EMI.
+- Disbursed amount.
+- Outstanding balance.
+- Repayment progress.
+- EMI schedule.
+- Payment history.
+
+Only show applicable actions for the loan's actual status.
+
+---
+
+## 8. EMI CALCULATION ENGINE
+
+Implement a reusable, tested EMI calculation utility.
+
+Use the reducing-balance formula:
+
+EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)
+
+Where:
+- P = principal amount.
+- r = monthly interest rate, calculated as annual percentage rate divided by 12 and by 100.
+- n = number of monthly instalments.
+
+If the monthly interest rate is zero:
+
+EMI = P / n
+
+Handle:
+- Zero interest.
+- Invalid or negative principal.
+- Invalid interest rates.
+- Zero or invalid tenure.
+- Very large values.
+- Floating-point precision.
+- Currency rounding.
+
+Display:
+- Monthly EMI.
+- Total repayment.
+- Total interest.
+
+Create an amortization schedule with:
+- Instalment number.
+- Due date.
+- Opening principal balance.
+- EMI amount.
+- Principal component.
+- Interest component.
+- Amount paid.
+- Remaining principal.
+- Payment status.
+
+The final instalment may require a rounding adjustment so that the principal is fully repaid.
+
+Use one consistent calculation policy across the calculator, loan details, and EMI schedule.
+
+All production loan calculations and payment-related balance updates must be validated by the backend. A frontend calculation is for display and estimation, not authorization.
+
+Write unit tests for the EMI formula and edge cases.
+
+---
+
+## 9. EMI SCHEDULE AND PAYMENT MANAGEMENT
+
+Routes:
+- /emi-schedule
+- /payments
+- /payments/:paymentId
+
+### EMI schedule
+
+Provide:
+- Loan selector.
+- Monthly instalment table.
+- Due dates.
+- Principal component.
+- Interest component.
+- Total EMI.
+- Amount paid.
+- Remaining balance.
+- Status.
+
+Filters:
+- Upcoming
+- Paid
+- Pending
+- Overdue
+
+Include clear empty states and a print-friendly schedule.
+
+### Payment interface
+
+Allow the customer to initiate a payment only for a valid outstanding instalment.
+
+Display a confirmation summary before initiating payment.
+
+Support a clearly labeled payment integration boundary for a real payment gateway.
+
+If no gateway is configured, provide a development-only simulated payment flow. Make it impossible to mistake a simulated payment for a real money transfer.
+
+For production:
+- Verify gateway signatures on the server.
+- Process verified webhooks.
+- Prevent duplicate payment processing using idempotency keys.
+- Maintain transaction references.
+- Record failed and pending transactions.
+- Never trust a frontend success callback as proof of payment.
+- Never store raw card details or payment credentials.
+
+A payment should update the loan ledger and repayment status only after authoritative verification.
+
+### Payment history
+
+Provide:
+- Transaction ID.
+- Loan ID.
+- Payment date.
+- Amount.
+- Payment method.
+- Status.
+- Receipt or reference.
+- View details action.
+
+Include date filters and pagination.
+
+Generate downloadable receipts only from verified payment records.
+
+---
+
+## 10. CUSTOMER PROFILE AND SUPPORT
+
+Routes:
+- /profile
+- /support
+
+### Profile
+
+Display and allow appropriate edits to:
+- Full name.
+- Email.
+- Phone number.
+- Username.
+- Account creation date.
+
+Require appropriate verification for sensitive account changes.
+
+Include:
+- Change password.
+- Logout.
+- Session-related information where available.
+
+Never display password hashes, access tokens, or secret backend data.
+
+### Support
+
+Create a support interface with:
+- Frequently asked questions.
+- Loan application guidance.
+- EMI and payment explanations.
+- Contact form.
+- Support ticket submission and status if the backend implements tickets.
+
+Use configurable support contact details. Do not invent real contact information.
+
+---
+
+## 11. ADMINISTRATOR DASHBOARD
+
+Route: /admin/dashboard
+
+The administrator dashboard must have a distinct, professional layout while sharing the same design system.
+
+Use a navy sidebar, white content area, and clean financial charts.
+
+### Administrator navigation
+
+- Dashboard
+- Customers
+- Loan Applications
+- Loans
+- EMI Management
+- Payments
+- Reports
+- Settings
+- Logout
+
+### Admin summary cards
+
+Display:
+1. Total Customers.
+2. Active Loans.
+3. Completed Loans.
+4. Total Loan Principal.
+
+Add secondary metrics where meaningful:
+- Pending applications.
+- Payments received during a selected period.
+- Outstanding principal.
+- Overdue instalments.
+
+Define every metric clearly and calculate it from the underlying data.
+
+### Loan application chart
+
+Create a bar chart showing monthly application counts.
+
+Where the backend provides the data, distinguish:
+- Approved applications.
+- Pending applications.
+- Rejected applications.
+
+Include useful tooltips and date filters.
+
+### Loan status chart
+
+Create a doughnut chart with:
+- Active loans.
+- Completed loans.
+- Overdue loans.
+
+Ensure each loan is counted consistently according to documented status rules.
+
+### Recent customers
+
+Table columns:
+- Customer name.
+- Email.
+- Registration date.
+- Loan count.
+- Account status.
+- Actions.
+
+Provide search, sorting, pagination, and a View All link.
+
+### Upcoming EMI payments
+
+Display:
+- Customer.
+- Loan ID.
+- Instalment amount.
+- Due date.
+- Payment status.
+
+### Overdue payments
+
+Display:
+- Customer.
+- Loan ID.
+- Overdue amount.
+- Days overdue.
+- Latest payment activity.
+
+Use prominent but restrained red status indicators.
+
+Do not automatically apply late fees unless a documented backend policy explicitly defines the fee and the applicable conditions.
+
+---
+
+## 12. CUSTOMER MANAGEMENT FOR ADMINISTRATORS
+
+Route: /admin/customers
+
+Implement:
+- Customer listing.
+- Search by name, email, or customer ID.
+- Pagination.
+- Customer detail view.
+- Related loans and payment history.
+- Account status.
+- Creation date.
+- Appropriate account-management actions.
+
+Sensitive actions must require server-side authorization and should be recorded in an audit log.
+
+Never expose password hashes or authentication tokens.
+
+Prevent an administrator from accidentally deleting essential financial records. Prefer controlled account deactivation or archival, with auditability and appropriate retention policies.
+
+---
+
+## 13. LOAN APPROVAL AND MANAGEMENT
+
+Routes:
+- /admin/loans
+- /admin/loans/:loanId
+- /admin/loan-applications
+
+Create an administrator review interface.
+
+Application detail should show:
+- Application ID.
+- Customer details permitted for the review.
+- Requested amount.
+- Loan type.
+- Proposed tenure.
+- Applicable interest rate.
+- Application date.
+- Current status.
+- Review notes.
+
+Administrator actions:
+- Approve.
+- Reject.
+- Request additional information if supported.
+
+Before approving or rejecting, display a confirmation dialog.
+
+Require a rejection reason when rejecting an application.
+
+Implement explicit status transitions. Do not allow arbitrary changes that bypass the business workflow.
+
+When approving a loan:
+- Revalidate the application on the backend.
+- Record the authorized decision.
+- Save the approved terms.
+- Generate the appropriate repayment schedule according to the configured policy.
+- Record the responsible administrator and timestamp.
+- Keep an auditable history.
+
+Approval must never be performed solely by changing a frontend status label.
+
+---
+
+## 14. LOAN CREATION FORM
+
+Provide an administrator loan-creation form inspired by the second dashboard in reference image 1.
+
+Organize the form into two sections.
+
+Customer details:
+- Existing customer selector or verified customer ID.
+- Full name and contact details as appropriate.
+- Address only if required by the configured business process.
+
+Loan details:
+- Loan amount.
+- Annual interest rate.
+- Loan tenure.
+- Loan type.
+- Applicable start date or disbursement date.
+- Status according to authorized workflow.
+
+For existing customers, populate relevant information from the backend instead of creating duplicate customer records.
+
+Include a Calculate EMI button.
+
+Show calculated:
+- Monthly EMI.
+- Total interest.
+- Total repayment.
+
+Buttons:
+- Save Loan.
+- Cancel.
+
+Validate the entire request server-side.
+
+Prevent duplicate submissions, invalid amounts, unauthorized status assignment, and invalid customer references.
+
+---
+
+## 15. REPORTS AND ANALYTICS
+
+Route: /admin/reports
+
+Create useful financial reports for administrators.
+
+Include:
+- Loan portfolio summary.
+- Loan applications by month.
+- Loans by status.
+- Payment collections by date range.
+- Outstanding balances.
+- Overdue instalments.
+- Completed loans.
+- Customer growth.
+
+Filters:
+- Start date.
+- End date.
+- Loan status.
+- Loan type, when applicable.
+
+Display clear chart titles, units, legends, and date ranges.
+
+Add CSV export using the filtered dataset.
+
+If PDF reporting is implemented, generate it from structured report data.
+
+Enforce administrator permissions on all report APIs and exports.
+
+Do not expose one customer's personal financial information to another customer.
+
+Do not manufacture historical trends when the database has insufficient history. Clearly identify sample data as demonstration data.
+
+---
+
+## 16. DATABASE DESIGN
+
+Implement the following logical entities in Django models and PostgreSQL.
+
+### User
+- id: primary key.
+- username: unique.
+- email: unique where appropriate.
+- password: Django-managed password hash.
+- role: customer or administrator.
+- is_active.
+- created_at.
+- updated_at.
+
+Use Django's supported custom user model approach if starting a new backend.
+
+### CustomerProfile
+- id.
+- user_id: one-to-one relationship.
+- full_name.
+- phone.
+- address, if required.
+- created_at.
+- updated_at.
+
+### Loan
+- id.
+- customer_id: foreign key.
+- loan_type.
+- principal_amount.
+- annual_interest_rate.
+- tenure_months.
+- monthly_emi.
+- approved_amount, where applicable.
+- disbursed_amount, where applicable.
+- application_date.
+- approval_date, where applicable.
+- disbursement_date, where applicable.
+- status.
+- created_at.
+- updated_at.
+
+Use Decimal fields for monetary amounts. Never use binary floating-point values as the authoritative database representation of money.
+
+### LoanStatusHistory
+- id.
+- loan_id.
+- previous_status.
+- new_status.
+- changed_by.
+- reason.
+- changed_at.
+
+### EMISchedule
+- id.
+- loan_id.
+- instalment_number.
+- due_date.
+- principal_component.
+- interest_component.
+- scheduled_amount.
+- paid_amount.
+- outstanding_amount.
+- status.
+- created_at.
+- updated_at.
+
+### Payment
+- id.
+- loan_id.
+- emi_schedule_id, where applicable.
+- customer_id.
+- amount.
+- payment_method.
+- transaction_reference.
+- status.
+- paid_at, where verified.
+- created_at.
+- updated_at.
+
+### AuditLog
+- id.
+- actor_id.
+- action.
+- entity_type.
+- entity_id.
+- safe metadata.
+- created_at.
+
+Avoid storing passwords, full payment credentials, access tokens, or unnecessary sensitive data in audit logs.
+
+### SupportTicket, if support tickets are implemented
+- id.
+- customer_id.
+- subject.
+- description.
+- status.
+- assigned_to, where applicable.
+- created_at.
+- updated_at.
+
+Define appropriate foreign keys, indexes, constraints, validation rules, and deletion behavior.
+
+Use database transactions for important operations involving loan approvals, repayment schedule creation, and payment-ledger updates.
+
+Document how migrations are created and applied.
+
+---
+
+## 17. BACKEND API CONTRACT
+
+Use versioned REST endpoints under /api/v1/.
+
+Authentication:
+- POST /api/v1/auth/register/
+- POST /api/v1/auth/login/
+- POST /api/v1/auth/refresh/
+- POST /api/v1/auth/logout/
+- GET /api/v1/auth/me/
+- POST /api/v1/auth/password-reset/
+- POST /api/v1/auth/password-reset/confirm/
+
+Customers:
+- GET /api/v1/customers/
+- GET /api/v1/customers/{id}/
+- PATCH /api/v1/customers/{id}/
+
+Loans:
+- GET /api/v1/loans/
+- POST /api/v1/loans/
+- GET /api/v1/loans/{id}/
+- PATCH /api/v1/loans/{id}/
+- POST /api/v1/loans/{id}/approve/
+- POST /api/v1/loans/{id}/reject/
+
+EMI:
+- GET /api/v1/loans/{id}/schedule/
+- POST /api/v1/loans/{id}/calculate-emi/
+
+Payments:
+- GET /api/v1/payments/
+- GET /api/v1/payments/{id}/
+- POST /api/v1/payments/initiate/
+- POST /api/v1/payments/webhook/
+
+Dashboards:
+- GET /api/v1/dashboard/customer/
+- GET /api/v1/dashboard/admin/
+
+Reports:
+- GET /api/v1/reports/loans/
+- GET /api/v1/reports/payments/
+- GET /api/v1/reports/overdue/
+
+The listed routes are the intended API contract. Implement them consistently, documenting any additional endpoints required.
+
+Use pagination and filtering for collections.
+
+Return consistent JSON response structures and useful HTTP status codes.
+
+Validate permissions for every object, not just the general endpoint.
+
+A customer must only be able to access their own loans, schedules, payments, and profile.
+
+An administrator can access administrative resources only after server-side role verification.
+
+Protect sensitive state-changing operations against CSRF where applicable and configure CORS explicitly.
+
+Never hardcode database passwords, JWT secrets, API keys, or production credentials in source code.
+
+---
+
+## 18. AUTHENTICATION AND SECURITY
+
+Implement the following security measures.
+
+- Use Django's password hashing.
+- Use short-lived access tokens and an appropriate refresh strategy.
+- Prefer secure, HttpOnly, Secure cookies for browser authentication where supported by the deployment architecture, with suitable CSRF protections.
+- Do not persist sensitive authentication tokens in localStorage as the default production strategy.
+- Enforce role-based access on the backend.
+- Validate all inputs on both frontend and backend.
+- Apply rate limits to login and password-recovery endpoints.
+- Avoid revealing whether a particular account exists during authentication and password recovery.
+- Use HTTPS in production.
+- Store secrets in environment variables or a secrets manager.
+- Configure allowed hosts and CORS explicitly.
+- Add appropriate security headers.
+- Record sensitive administrative actions.
+- Avoid leaking stack traces or internal errors to users.
+- Use transactions and idempotency where financial operations require them.
+- Prevent insecure direct-object-reference vulnerabilities.
+- Apply appropriate retention and deletion rules for financial records.
+
+If an authentication feature cannot be fully implemented because a required backend service is missing, show a clear development-mode limitation and document the required configuration. Do not simulate production security.
+
+---
+
+## 19. APPLICATION ROUTING AND PROTECTED PAGES
+
+Create these frontend routes.
+
+Public:
+- /
+- /login
+- /register
+- /forgot-password
+- /reset-password
+- /privacy
+- /terms
+
+Customer:
+- /dashboard
+- /loans
+- /loans/apply
+- /loans/:loanId
+- /emi-schedule
+- /payments
+- /payments/:paymentId
+- /profile
+- /support
+
+Administrator:
+- /admin/dashboard
+- /admin/customers
+- /admin/customers/:customerId
+- /admin/loans
+- /admin/loans/:loanId
+- /admin/loan-applications
+- /admin/payments
+- /admin/emi-management
+- /admin/reports
+- /admin/settings
+
+Implement:
+- Authentication guards.
+- Role guards.
+- Loading screens while checking sessions.
+- Appropriate unauthorized and forbidden pages.
+- A useful 404 page.
+- Session-expiration handling.
+- Correct redirect behavior.
+- A not-found fallback for unknown routes.
+
+Do not rely on hiding sidebar links as the only authorization mechanism.
+
+---
+
+## 20. SAMPLE DATA AND DEMONSTRATION MODE
+
+Create a realistic demonstration dataset for local development.
+
+Use fictional customers and clearly marked sample financial records.
+
+Example demonstration figures may include:
+- Total customers: 125.
+- Active loans: 98.
+- Completed loans: 42.
+- Total portfolio principal: ₹48,50,000.
+
+These are illustrative values only. Do not force unrelated sample totals to reconcile with one another.
+
+For the customer dashboard, use one coherent fictional account with realistic loan terms and payment history.
+
+For example:
+- Loan principal: ₹2,00,000.
+- Annual interest rate: 12%.
+- Tenure: 24 months.
+- Estimated monthly EMI: approximately ₹9,415.
+
+Calculate the actual EMI using the shared calculation utility rather than hardcoding the displayed result.
+
+The values in the dashboard, charts, transaction lists, loan details, and repayment schedule must remain internally consistent.
+
+Provide a clearly labeled development-only demonstration mode with fictional data.
+
+If demonstration login accounts are supplied, keep them in development configuration, document their credentials separately, and prevent them from being used in production.
+
+Do not add a hidden administrator backdoor or a hardcoded production password.
+
+---
+
+## 21. RESPONSIVE DESIGN
+
+Design for:
+- Desktop: 1440px and above.
+- Laptop: 1024–1439px.
+- Tablet: 768–1023px.
+- Mobile: 320–767px.
+
+Desktop:
+- Full sidebar.
+- Four summary cards in a row when space permits.
+- Two-column chart and data layouts.
+- Spacious landing page hero.
+
+Tablet:
+- Reduced card columns.
+- Collapsible navigation.
+- Charts and tables adapt to available width.
+
+Mobile:
+- Single-column dashboard cards.
+- Compact headers.
+- Mobile navigation drawer.
+- Readable financial values.
+- Forms with full-width inputs.
+- Horizontally scrollable tables when necessary.
+- No horizontal overflow across the whole page.
+- Touch-friendly controls.
+
+Do not simply scale down the desktop interface. Adapt the layout to mobile interaction patterns.
+
+---
+
+## 22. ACCESSIBILITY AND USABILITY
+
+Follow accessible interface practices:
+- Semantic HTML.
+- Keyboard navigation.
+- Visible focus states.
+- Labels associated with inputs.
+- Accessible dialog behavior.
+- Appropriate ARIA attributes.
+- Sufficient color contrast.
+- Text labels in addition to status colors.
+- Accessible chart summaries.
+- Reduced-motion support.
+- Useful validation messages.
+
+Use Indian number formatting consistently.
+
+Display dates in a readable format such as 25 Oct 2026, with a consistent date policy.
+
+Do not use ambiguous labels like "Amount" when "Outstanding Principal" or "Monthly EMI" is more accurate.
+
+---
+
+## 23. PROJECT STRUCTURE
+
+Organize the frontend into a maintainable structure similar to:
+
+src/
+  app/
+    App.tsx
+    router.tsx
+  assets/
+  components/
+    layout/
+    navigation/
+    dashboard/
+    charts/
+    forms/
+    tables/
+    feedback/
+  features/
+    auth/
+    loans/
+    emi/
+    payments/
+    customers/
+    reports/
+    profile/
+  hooks/
+  lib/
+    api/
+    auth/
+    calculations/
+    formatters/
+    validation/
+  pages/
+    LandingPage.tsx
+    LoginPage.tsx
+    RegisterPage.tsx
+    CustomerDashboard.tsx
+    AdminDashboard.tsx
+    NotFoundPage.tsx
+  types/
+  styles/
+  tests/
+
+Organize the Django backend similarly:
+
+backend/
+  config/
+  apps/
+    accounts/
+    customers/
+    loans/
+    payments/
+    reports/
+    audit/
+  manage.py
+  requirements.txt
+  .env.example
+
+You may improve the structure when justified, but avoid giant single-file components, duplicate logic, unnecessary abstractions, and circular imports.
+
+Create reusable components for:
+- Buttons.
+- Form inputs.
+- Status badges.
+- Summary cards.
+- Data tables.
+- Confirmation dialogs.
+- Loading states.
+- Empty states.
+- Error states.
+- Page headers.
+- Chart containers.
+
+Create shared utilities for:
+- Currency formatting.
+- Date formatting.
+- EMI calculation.
+- API error handling.
+- Authentication state.
+- Role checks.
+
+---
+
+## 24. TESTING REQUIREMENTS
+
+Write meaningful tests for:
+
+Authentication:
+- Valid login.
+- Invalid login.
+- Registration validation.
+- Role-based redirects.
+- Protected routes.
+- Unauthorized administrator access.
+
+Loan management:
+- Loan application submission.
+- Approval and rejection.
+- Invalid status transitions.
+- Customer ownership checks.
+
+EMI:
+- Standard reducing-balance EMI.
+- Zero-interest loan.
+- Invalid input.
+- Final repayment rounding.
+- Repayment schedule consistency.
+
+Payments:
+- Pending payment.
+- Verified successful payment.
+- Failed payment.
+- Duplicate webhook handling.
+- Prevention of double-counting.
+- Unauthorized payment access.
+
+UI:
+- Landing page navigation.
+- Login and registration validation.
+- Dashboard loading and empty states.
+- Mobile layout.
+- Error handling.
+
+Do not claim that tests pass unless they have actually been run.
+
+---
+
+## 25. DEPLOYMENT AND CONFIGURATION
+
+Create:
+- README.md.
+- Frontend .env.example.
+- Backend .env.example.
+- requirements.txt.
+- package.json with compatible dependencies.
+- Database migration instructions.
+- Development setup instructions.
+- API documentation instructions.
+- Production deployment instructions.
+- A clear explanation of mock versus real backend mode.
+
+Frontend environment variable:
+
+VITE_API_BASE_URL=http://localhost:8000/api/v1
+
+Backend environment variables should include configurable values for:
+- Django secret key.
+- Debug mode.
+- Database URL or connection parameters.
+- Allowed hosts.
+- CORS trusted origins.
+- JWT settings.
+- Email delivery.
+- Payment gateway credentials when applicable.
+
+Never commit actual secrets.
+
+Provide commands for installing dependencies, starting the frontend, starting Django, running migrations, and running tests.
+
+Ensure the frontend's production build completes successfully with the selected dependency versions.
+
+Do not use 0.0.0.0 as a browser navigation URL. Configure the development server to bind appropriately and access it using localhost or the actual hosted URL.
+
+---
+
+## 26. FINAL VISUAL QUALITY REQUIREMENTS
+
+The finished application should have the following qualities:
+
+1. A polished public landing page with a clear marketing message and visible login and registration actions.
+2. A functional registration and login flow.
+3. Correct role-based routing.
+4. A visually complete customer dashboard.
+5. A distinct administrator dashboard.
+6. Working loan forms and approval actions.
+7. A consistent EMI calculation engine.
+8. Connected payment and repayment schedule interfaces.
+9. Functional tables, filters, charts, and navigation.
+10. A responsive design across desktop, tablet, and mobile.
+11. Coherent fictional demonstration data.
+12. A maintainable architecture with documented API contracts.
+13. Real security boundaries between customers and administrators.
+14. No broken imports, placeholder buttons, dead routes, or unnecessary console errors.
+15. A coherent visual language based on navy, indigo, pale blue, white, and restrained financial status colors.
+
+Avoid:
+- Generic AI landing-page layouts.
+- Excessive gradients.
+- Repeated identical cards with meaningless content.
+- Emoji used as interface icons.
+- Randomly generated financial numbers.
+- Fake payment confirmations.
+- Fake security claims.
+- Dead buttons.
+- Placeholder lorem ipsum.
+- Excessive rounded pill shapes.
+- Unnecessary animations.
+- Unreadable tiny text.
+- A dashboard that is merely a static screenshot.
+
+Use realistic content, carefully composed layouts, and deliberate visual hierarchy.
+
+---
+
+## 27. IMPLEMENTATION ORDER
+
+Build the application in this order:
+
+Phase 1: Establish the project, compatible dependencies, design tokens, reusable components, and routing.
+
+Phase 2: Complete the public landing page, responsive navigation, and footer.
+
+Phase 3: Build login, registration, validation, and authentication state management.
+
+Phase 4: Implement customer and administrator route protection.
+
+Phase 5: Build the customer dashboard and customer loan pages using coherent demonstration data.
+
+Phase 6: Implement the EMI calculation engine and repayment schedule.
+
+Phase 7: Build payment history and the payment integration boundary.
+
+Phase 8: Build the administrator dashboard, customer management, loan approval, and loan creation.
+
+Phase 9: Implement reports, filtering, export, and API integration.
+
+Phase 10: Implement or complete the Django backend and PostgreSQL integration where the environment supports it.
+
+Phase 11: Run available tests, fix compilation errors, verify navigation, check responsiveness, and resolve console errors.
+
+Do not stop after creating the landing page. Continue until the core navigation and user journeys are implemented.
+
+If the entire application exceeds the available generation budget, prioritize a working vertical slice: landing page → registration/login → role-based dashboard → loan application → EMI calculation. Then continue the remaining modules without replacing working functionality.
+
+## FINAL INSTRUCTION
+
+Start by inspecting the available project files and the attached reference images. Then implement the application directly in the project.
+
+Make reasonable product decisions without repeatedly asking for approval. Preserve working code, avoid unnecessary rewrites, and verify each major phase before moving to the next.
+
+The final deliverable should be a coherent, runnable LoanEase application, not a design mockup or a collection of disconnected screens.
