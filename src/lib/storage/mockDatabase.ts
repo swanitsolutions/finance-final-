@@ -1,4 +1,4 @@
-import { User, Loan, EMIScheduleItem, PaymentTransaction, CustomerProfile, SupportTicket } from '../../types';
+import { User, Loan, EMIScheduleItem, PaymentTransaction, CustomerProfile, SupportTicket, AuditLog } from '../../types';
 import { calculateEMI, generateAmortizationSchedule } from '../calculations/emi';
 
 const STORAGE_KEY_PREFIX = 'loanease_v1_';
@@ -394,6 +394,72 @@ export const INITIAL_TICKETS: SupportTicket[] = [
   },
 ];
 
+export const INITIAL_AUDIT_LOGS: AuditLog[] = [
+  {
+    id: 'LOG-1001',
+    timestamp: '2024-10-25T14:30:12.000Z',
+    userId: 'USR-002',
+    userName: 'Admin Administrator',
+    role: 'admin',
+    action: 'SYSTEM_POLICY_UPDATE',
+    entity: 'Policy',
+    details: 'Benchmark interest rates verified for digital lending compliance.',
+    ipAddress: '192.168.1.10',
+    severity: 'INFO',
+  },
+  {
+    id: 'LOG-1002',
+    timestamp: '2024-10-20T10:15:44.000Z',
+    userId: 'USR-001',
+    userName: 'Priya Sharma',
+    role: 'customer',
+    action: 'EMI_PAYMENT_SUCCESS',
+    entity: 'Payment',
+    entityId: 'TXN-90214',
+    details: 'Instalment #3 of ₹9,347 paid via UPI for loan LN123456.',
+    ipAddress: '103.21.244.12',
+    severity: 'INFO',
+  },
+  {
+    id: 'LOG-1003',
+    timestamp: '2024-08-04T16:22:00.000Z',
+    userId: 'USR-002',
+    userName: 'Admin Administrator',
+    role: 'admin',
+    action: 'LOAN_UNDERWRITING_APPROVED',
+    entity: 'Loan',
+    entityId: 'LN123456',
+    details: 'Approved ₹2,00,000 Personal Loan for Priya Sharma at 12% p.a. for 24 months.',
+    ipAddress: '192.168.1.10',
+    severity: 'INFO',
+  },
+  {
+    id: 'LOG-1004',
+    timestamp: '2024-08-01T09:12:30.000Z',
+    userId: 'USR-001',
+    userName: 'Priya Sharma',
+    role: 'customer',
+    action: 'LOAN_APPLICATION_SUBMITTED',
+    entity: 'Loan',
+    entityId: 'LN123456',
+    details: 'Submitted personal loan application for home renovation and interior upgrades.',
+    ipAddress: '103.21.244.12',
+    severity: 'INFO',
+  },
+  {
+    id: 'LOG-1005',
+    timestamp: '2024-01-15T10:00:00.000Z',
+    userId: 'system',
+    userName: 'System Daemon',
+    role: 'system',
+    action: 'ENCRYPTION_KEY_ROTATED',
+    entity: 'Security',
+    details: 'AES-256 session token signing key rotated per regulatory schedule.',
+    ipAddress: '127.0.0.1',
+    severity: 'SECURITY',
+  },
+];
+
 // In-memory / localStorage cache helpers
 function loadFromStorage<T>(key: string, defaultValue: T): T {
   try {
@@ -422,6 +488,7 @@ class MockDatabase {
   private customers: CustomerProfile[];
   private tickets: SupportTicket[];
   private schedules: Record<string, EMIScheduleItem[]>;
+  private auditLogs: AuditLog[];
 
   constructor() {
     this.users = loadFromStorage('users', INITIAL_USERS);
@@ -430,6 +497,7 @@ class MockDatabase {
     this.customers = loadFromStorage('customers', INITIAL_CUSTOMERS);
     this.tickets = loadFromStorage('tickets', INITIAL_TICKETS);
     this.schedules = loadFromStorage('schedules', {});
+    this.auditLogs = loadFromStorage('audit_logs', INITIAL_AUDIT_LOGS);
 
     // Ensure Priya's initial schedule exists
     if (!this.schedules['LN123456']) {
@@ -637,6 +705,97 @@ class MockDatabase {
     return ticket;
   }
 
+  // Audit Logs (Monitoring & Security)
+  getAuditLogs(): AuditLog[] {
+    return this.auditLogs;
+  }
+
+  addAuditLog(entry: Omit<AuditLog, 'id' | 'timestamp'>): AuditLog {
+    const newLog: AuditLog = {
+      ...entry,
+      id: `LOG-${Date.now().toString().slice(-4)}${Math.floor(Math.random() * 90 + 10)}`,
+      timestamp: new Date().toISOString(),
+    };
+    this.auditLogs.unshift(newLog);
+    // Keep max 200 logs
+    if (this.auditLogs.length > 200) {
+      this.auditLogs = this.auditLogs.slice(0, 200);
+    }
+    saveToStorage('audit_logs', this.auditLogs);
+    return newLog;
+  }
+
+  // Database Backup & Restore
+  exportDatabase(): string {
+    const payload = {
+      version: '1.0.0',
+      exportedAt: new Date().toISOString(),
+      appName: 'LoanEase Financial Management System',
+      data: {
+        users: this.users,
+        loans: this.loans,
+        transactions: this.transactions,
+        customers: this.customers,
+        tickets: this.tickets,
+        schedules: this.schedules,
+        auditLogs: this.auditLogs,
+      },
+    };
+    return JSON.stringify(payload, null, 2);
+  }
+
+  importDatabase(jsonString: string): { success: boolean; message: string; counts?: Record<string, number> } {
+    try {
+      const parsed = JSON.parse(jsonString);
+      if (!parsed || typeof parsed !== 'object') {
+        return { success: false, message: 'Invalid JSON file format.' };
+      }
+      const data = parsed.data || parsed;
+      if (!Array.isArray(data.users) || !Array.isArray(data.loans)) {
+        return { success: false, message: 'Invalid backup schema: Missing required "users" or "loans" tables.' };
+      }
+
+      this.users = data.users;
+      this.loans = data.loans;
+      this.transactions = Array.isArray(data.transactions) ? data.transactions : [];
+      this.customers = Array.isArray(data.customers) ? data.customers : [];
+      this.tickets = Array.isArray(data.tickets) ? data.tickets : [];
+      this.schedules = data.schedules && typeof data.schedules === 'object' ? data.schedules : {};
+      this.auditLogs = Array.isArray(data.auditLogs) ? data.auditLogs : [];
+
+      saveToStorage('users', this.users);
+      saveToStorage('loans', this.loans);
+      saveToStorage('transactions', this.transactions);
+      saveToStorage('customers', this.customers);
+      saveToStorage('tickets', this.tickets);
+      saveToStorage('schedules', this.schedules);
+      saveToStorage('audit_logs', this.auditLogs);
+
+      this.addAuditLog({
+        userId: 'admin',
+        userName: 'Admin Administrator',
+        role: 'admin',
+        action: 'DATABASE_RESTORED',
+        entity: 'Database',
+        details: `Restored ${this.loans.length} loans, ${this.users.length} users, ${this.transactions.length} transactions from JSON backup.`,
+        severity: 'WARN',
+      });
+
+      return {
+        success: true,
+        message: 'Database backup imported and restored successfully!',
+        counts: {
+          users: this.users.length,
+          loans: this.loans.length,
+          transactions: this.transactions.length,
+          customers: this.customers.length,
+        },
+      };
+    } catch (err: any) {
+      return { success: false, message: `Failed to parse backup JSON: ${err.message || 'Syntax error'}` };
+    }
+  }
+
   // Reset database to initial pristine state
   resetAll(): void {
     localStorage.removeItem(STORAGE_KEY_PREFIX + 'users');
@@ -645,11 +804,13 @@ class MockDatabase {
     localStorage.removeItem(STORAGE_KEY_PREFIX + 'customers');
     localStorage.removeItem(STORAGE_KEY_PREFIX + 'tickets');
     localStorage.removeItem(STORAGE_KEY_PREFIX + 'schedules');
+    localStorage.removeItem(STORAGE_KEY_PREFIX + 'audit_logs');
     this.users = [...INITIAL_USERS];
     this.loans = [...INITIAL_LOANS];
     this.transactions = [...INITIAL_TRANSACTIONS];
     this.customers = [...INITIAL_CUSTOMERS];
     this.tickets = [...INITIAL_TICKETS];
+    this.auditLogs = [...INITIAL_AUDIT_LOGS];
     this.schedules = {};
     this.schedules['LN123456'] = generateAmortizationSchedule('LN123456', 200000, 12, 24, '2024-08-10', 3);
   }

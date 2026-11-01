@@ -5,8 +5,8 @@ import { apiClient } from '../../lib/api/apiClient';
 import { calculateEMI } from '../../lib/calculations/emi';
 import { formatINR } from '../../lib/formatters/currency';
 import { useNotification } from '../../context/NotificationContext';
-import { LoanType } from '../../types';
-import { CheckCircle2, Calculator, ArrowRight, ShieldCheck } from 'lucide-react';
+import { LoanType, UploadedDocument } from '../../types';
+import { CheckCircle2, Calculator, ArrowRight, ShieldCheck, UploadCloud, FileText, X, AlertCircle } from 'lucide-react';
 
 const RATE_POLICY: Record<LoanType, number> = {
   Personal: 12.0,
@@ -28,9 +28,65 @@ export const ApplyLoanPage: React.FC = () => {
   const [monthlyIncome, setMonthlyIncome] = useState<number>(75000);
   const [purpose, setPurpose] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [documents, setDocuments] = useState<UploadedDocument[]>([]);
+  const [docTypeSelect, setDocTypeSelect] = useState<UploadedDocument['documentType']>('ID Proof (PAN/Aadhaar)');
+  const [fileError, setFileError] = useState<string | null>(null);
 
   const interestRate = RATE_POLICY[loanType];
   const emiCalc = calculateEMI(amount, interestRate, tenureMonths);
+
+  // File Upload Validation (Requirement 20)
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFileError(null);
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+    const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+    const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+
+    // Validate File Type
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      const errMsg = `Invalid file format (${file.type || 'unknown'}). Only PDF, JPEG, and PNG documents are permitted.`;
+      setFileError(errMsg);
+      error('File Validation Failed', errMsg);
+      e.target.value = '';
+      return;
+    }
+
+    // Validate File Size (<= 5MB)
+    if (file.size > MAX_SIZE) {
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      const errMsg = `File size (${sizeMB} MB) exceeds maximum permissible limit of 5.0 MB.`;
+      setFileError(errMsg);
+      error('File Too Large', errMsg);
+      e.target.value = '';
+      return;
+    }
+
+    // Format file size
+    const formatted = file.size >= 1024 * 1024 
+      ? `${(file.size / (1024 * 1024)).toFixed(2)} MB`
+      : `${Math.round(file.size / 1024)} KB`;
+
+    const newDoc: UploadedDocument = {
+      id: `DOC-${Date.now().toString().slice(-4)}`,
+      name: file.name,
+      size: file.size,
+      formattedSize: formatted,
+      type: file.type,
+      uploadedAt: new Date().toISOString(),
+      documentType: docTypeSelect,
+    };
+
+    setDocuments(prev => [...prev, newDoc]);
+    success('Document Attached', `${file.name} (${formatted}) verified and attached.`);
+    e.target.value = '';
+  };
+
+  const handleRemoveDoc = (id: string) => {
+    setDocuments(prev => prev.filter(d => d.id !== id));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -180,6 +236,78 @@ export const ApplyLoanPage: React.FC = () => {
                 required
                 className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
               />
+            </div>
+
+            {/* KYC & Financial Document Upload (Requirement 20: File Upload Validation) */}
+            <div className="space-y-2 pt-1 border-t border-[#DFE5E9]">
+              <div className="flex justify-between items-center">
+                <label className="block text-xs font-semibold text-[#172B3A]">
+                  Verification Documents (KYC & Income)
+                </label>
+                <span className="text-[11px] text-[#7B8994]">Max 5 MB · PDF, JPG, PNG</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-2">
+                <div className="sm:col-span-5">
+                  <select
+                    value={docTypeSelect}
+                    onChange={(e) => setDocTypeSelect(e.target.value as UploadedDocument['documentType'])}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] font-medium focus:outline-none focus:border-[#612536]"
+                  >
+                    <option value="ID Proof (PAN/Aadhaar)">ID Proof (PAN/Aadhaar)</option>
+                    <option value="Income Proof / Salary Slip">Income Proof / Salary Slip</option>
+                    <option value="Bank Statement">Bank Statement</option>
+                    <option value="Other">Other Supporting Document</option>
+                  </select>
+                </div>
+
+                <div className="sm:col-span-7">
+                  <label className="flex items-center justify-center gap-2 px-3 py-2 border border-dashed border-[#DFE5E9] hover:border-[#612536] bg-[#F5F8FA] hover:bg-[#EDF2F5] rounded-xl cursor-pointer transition-colors text-xs font-semibold text-[#153755]">
+                    <UploadCloud className="w-4 h-4 text-[#612536]" />
+                    <span>Choose File to Upload</span>
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {fileError && (
+                <div className="p-2.5 bg-[#FCEBED] rounded-xl border border-[#C9414D]/30 text-xs text-[#C9414D] flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{fileError}</span>
+                </div>
+              )}
+
+              {documents.length > 0 && (
+                <div className="space-y-1.5 pt-1">
+                  {documents.map((doc) => (
+                    <div
+                      key={doc.id}
+                      className="flex items-center justify-between p-2.5 bg-[#F5F8FA] rounded-xl border border-[#DFE5E9] text-xs"
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        <FileText className="w-4 h-4 text-[#0D343B] shrink-0" />
+                        <div className="truncate">
+                          <p className="font-semibold text-[#172B3A] truncate">{doc.name}</p>
+                          <p className="text-[10px] text-[#7B8994]">{doc.documentType} · {doc.formattedSize}</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveDoc(doc.id)}
+                        className="p-1 hover:bg-gray-200 rounded-lg text-[#7B8994] hover:text-[#C9414D] transition-colors"
+                        title="Remove attached file"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="p-3 bg-[#F5F8FA] rounded-xl border border-[#DFE5E9] text-[11px] text-[#536473] flex items-center gap-2">

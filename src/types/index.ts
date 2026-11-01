@@ -116,3 +116,30 @@ export interface FinancialSummary {
   remainingAmount: number;
   overdueAmount: number;
 }
+
+export type AuditSeverity = 'INFO' | 'WARN' | 'SECURITY' | 'ERROR';
+
+export interface AuditLog {
+  id: string;
+  timestamp: string;
+  userId: string;
+  userName: string;
+  role: UserRole | 'system';
+  action: string;
+  entity: string;
+  entityId?: string;
+  details: string;
+  ipAddress?: string;
+  severity: AuditSeverity;
+}
+
+export interface UploadedDocument {
+  id: string;
+  name: string;
+  size: number;
+  formattedSize: string;
+  type: string;
+  uploadedAt: string;
+  documentType: 'ID Proof (PAN/Aadhaar)' | 'Income Proof / Salary Slip' | 'Bank Statement' | 'Other';
+}
+

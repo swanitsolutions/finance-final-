@@ -83,6 +83,12 @@ export const Footer: React.FC = () => {
                   Terms & Conditions
                 </Link>
               </li>
+              <li>
+                <Link to="/api-docs" className="hover:text-[#E8EA68] transition-colors flex items-center gap-1.5">
+                  <span className="text-[10px] bg-[#E8EA68] text-[#172B3A] px-1.5 py-0.2 rounded font-bold">API</span>
+                  <span>API Documentation</span>
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -1,4 +1,4 @@
-import { User, Loan, EMIScheduleItem, PaymentTransaction, CustomerProfile, SupportTicket, FinancialSummary } from '../../types';
+import { User, Loan, EMIScheduleItem, PaymentTransaction, CustomerProfile, SupportTicket, FinancialSummary, AuditLog } from '../../types';
 import { db } from '../storage/mockDatabase';
 import { calculateEMI, generateAmortizationSchedule } from '../calculations/emi';
 
@@ -11,6 +11,31 @@ export interface ApiResponse<T> {
 
 // Simulated network delay
 const delay = (ms: number = 200) => new Promise(resolve => setTimeout(resolve, ms));
+
+// API Security: Sliding-window Rate Limiter simulation (max 100 requests per minute)
+const requestTimestamps: number[] = [];
+function checkRateLimit(): boolean {
+  const now = Date.now();
+  // Keep timestamps in the last 60 seconds
+  while (requestTimestamps.length > 0 && requestTimestamps[0] <= now - 60000) {
+    requestTimestamps.shift();
+  }
+  if (requestTimestamps.length >= 100) {
+    return false; // Rate limit exceeded
+  }
+  requestTimestamps.push(now);
+  return true;
+}
+
+// API Security: Input sanitization helper to neutralize HTML/script injections
+export function sanitizeText(input: string): string {
+  if (!input) return '';
+  return input
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/[<>]/g, '')
+    .trim();
+}
+
 
 export const apiClient = {
   // Authentication endpoints (/api/v1/auth/*)
@@ -436,4 +461,36 @@ export const apiClient = {
       message: 'Support ticket submitted. A financial specialist will reply within 24 hours.',
     };
   },
+
+  // Audit Logs (/api/v1/audit-logs/)
+  async getAuditLogs(): Promise<ApiResponse<AuditLog[]>> {
+    await delay(100);
+    return { success: true, data: db.getAuditLogs() };
+  },
+
+  // Database Backup & Restore (/api/v1/system/backup/)
+  async exportDatabaseBackup(): Promise<ApiResponse<{ json: string; filename: string }>> {
+    await delay(200);
+    const json = db.exportDatabase();
+    const dateStr = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+    return {
+      success: true,
+      data: {
+        json,
+        filename: `loanease-backup-${dateStr}.json`,
+      },
+      message: 'System backup JSON generated successfully.',
+    };
+  },
+
+  async importDatabaseBackup(jsonString: string): Promise<ApiResponse<{ counts?: Record<string, number> }>> {
+    await delay(300);
+    const result = db.importDatabase(jsonString);
+    return {
+      success: result.success,
+      message: result.message,
+      data: { counts: result.counts },
+    };
+  },
 };
+

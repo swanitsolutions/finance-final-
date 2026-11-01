@@ -150,7 +150,20 @@ export const RegisterPage: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#172B3A] mb-1">Password *</label>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="text-xs font-semibold text-[#172B3A]">Password *</label>
+                  {password && (
+                    <span className={`text-[10px] font-bold ${
+                      password.length < 6 ? 'text-[#C9414D]' :
+                      password.length >= 8 && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password) ? 'text-[#218568]' :
+                      'text-[#C28A20]'
+                    }`}>
+                      {password.length < 6 ? 'Weak' :
+                       password.length >= 8 && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password) ? 'Strong' :
+                       'Fair'}
+                    </span>
+                  )}
+                </div>
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
@@ -161,6 +174,14 @@ export const RegisterPage: React.FC = () => {
                     className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
                   />
                 </div>
+                {/* Visual strength bar */}
+                {password && (
+                  <div className="flex gap-1 mt-1">
+                    <div className={`h-1 flex-1 rounded-full ${password.length > 0 ? (password.length < 6 ? 'bg-[#C9414D]' : 'bg-[#218568]') : 'bg-gray-200'}`} />
+                    <div className={`h-1 flex-1 rounded-full ${password.length >= 6 ? (password.length >= 8 && /[0-9]/.test(password) ? 'bg-[#218568]' : 'bg-[#C28A20]') : 'bg-gray-200'}`} />
+                    <div className={`h-1 flex-1 rounded-full ${password.length >= 8 && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password) ? 'bg-[#218568]' : 'bg-gray-200'}`} />
+                  </div>
+                )}
               </div>
 
               <div>

@@ -15,6 +15,8 @@ import { RegisterPage } from './pages/auth/RegisterPage';
 import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
 import { PrivacyPage } from './pages/public/PrivacyPage';
 import { TermsPage } from './pages/public/TermsPage';
+import { ApiDocsPage } from './pages/public/ApiDocsPage';
+import { AccessDeniedPage } from './pages/AccessDeniedPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 // Customer Pages
@@ -51,6 +53,8 @@ export default function App() {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
+            <Route path="/api-docs" element={<ApiDocsPage />} />
+            <Route path="/403" element={<AccessDeniedPage />} />
 
             {/* Authenticated Customer Routes */}
             <Route
