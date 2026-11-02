@@ -23,12 +23,12 @@ const AUTH_STORAGE_KEY = 'loanease_auth_session';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
-  const { success } = useNotification();
+  const { showCenterModal } = useNotification();
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Restore authenticated session on mount
+  // Restore authenticated session on mount (only if previously logged in)
   useEffect(() => {
     try {
       const stored = localStorage.getItem(AUTH_STORAGE_KEY);
@@ -40,15 +40,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setUser(freshUser);
             setToken(parsed.token);
           }
-        }
-      } else {
-        // Initialize with default demo customer (Priya Sharma) for immediate interactive enjoyment
-        const demoUser = db.getUserByEmailOrUsername('priya');
-        if (demoUser) {
-          const demoToken = 'jwt_token_demo_init';
-          setUser(demoUser);
-          setToken(demoToken);
-          localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ userId: demoUser.id, token: demoToken }));
         }
       }
     } catch (e) {
@@ -81,27 +72,45 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }) => {
     const res = await apiClient.register(data);
     if (res.success && res.data) {
-      setUser(res.data.user);
-      setToken(res.data.token);
-      localStorage.setItem(
-        AUTH_STORAGE_KEY,
-        JSON.stringify({ userId: res.data.user.id, token: res.data.token })
-      );
-      return { success: true, message: res.message };
+      // Do NOT auto-login to dashboard. User must proceed to login with credentials.
+      return {
+        success: true,
+        message: res.message || 'Registration successful! Please sign in with your credentials.',
+      };
     }
     return { success: false, message: res.message || 'Registration failed' };
   };
 
   const logout = (redirectPath: string = '/') => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-    success('Signed Out Successfully', 'You have been safely signed out.');
-    try {
-      navigate(redirectPath, { replace: true });
-    } catch {
-      window.location.href = redirectPath;
-    }
+    showCenterModal({
+      type: 'warning',
+      title: 'Confirm Sign Out',
+      message: 'Are you sure you want to sign out of your LoanEase account? You can choose to sign out or stay signed in.',
+      buttonText: 'Sign Out',
+      secondaryButtonText: 'Stay Signed In',
+      onCancel: () => {
+        // User cancels - stays signed in
+      },
+      onConfirm: () => {
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        showCenterModal({
+          type: 'success',
+          title: 'Signed Out Successfully',
+          message: 'You have been safely signed out. Returning to home page...',
+          buttonText: 'Return to Home',
+          autoCloseMs: 1800,
+          onConfirm: () => {
+            try {
+              navigate(redirectPath, { replace: true });
+            } catch {
+              window.location.href = redirectPath;
+            }
+          },
+        });
+      },
+    });
   };
 
   const quickSwitchUser = (username: 'priya' | 'admin') => {

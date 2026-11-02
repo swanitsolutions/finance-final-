@@ -57,10 +57,10 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Solutions & Portals */}
+          {/* Solutions & Platform */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Portals & Legal
+              Platform & Legal
             </h4>
             <ul className="space-y-2 text-xs text-[#D9E0E5]">
               <li>
@@ -70,7 +70,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/admin/dashboard" className="hover:text-[#E8EA68] transition-colors">
-                  Administrator Portal
+                  Administration & Underwriting
                 </Link>
               </li>
               <li>

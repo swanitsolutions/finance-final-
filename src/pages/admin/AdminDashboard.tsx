@@ -48,7 +48,7 @@ export const AdminDashboard: React.FC = () => {
   // Loan status doughnut chart data
   const statusPieData = [
     { name: 'Active', value: 68, color: '#218568' },
-    { name: 'Completed', value: '#0D343B', color: '#0D343B' },
+    { name: 'Completed', value: 42, color: '#0D343B' },
     { name: 'Overdue', value: 7, color: '#C9414D' },
   ];
 

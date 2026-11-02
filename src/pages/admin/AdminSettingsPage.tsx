@@ -422,7 +422,7 @@ export const AdminSettingsPage: React.FC = () => {
             <div className="flex items-center justify-between pb-2 border-b border-[#DFE5E9]">
               <div className="flex items-center gap-2">
                 <RotateCcw className="w-4 h-4 text-[#C9414D]" />
-                <h3 className="text-sm font-bold text-[#172B3A]">Factory Reset Demonstration Database</h3>
+                <h3 className="text-sm font-bold text-[#172B3A]">Factory Reset System Database</h3>
               </div>
             </div>
 
@@ -430,15 +430,15 @@ export const AdminSettingsPage: React.FC = () => {
               <div>
                 <p className="font-semibold text-[#172B3A]">Reset Database to Initial State</p>
                 <p className="text-[#536473] text-[11px] mt-0.5 max-w-xl">
-                  Re-seeds Priya Sharma's baseline loan (LN123456, ₹2,00,000 at 12%), Executive KPIs (125 customers, 98 active loans), and all seed transactions.
+                  Re-seeds standard accounts, initial underwriting KPIs (125 customers, 98 active loans), and all seed transactions.
                 </p>
               </div>
 
               <button
                 onClick={handleReset}
-                className="px-4 py-2 bg-[#FCEBED] hover:bg-red-100 text-[#C9414D] border border-[#C9414D]/30 rounded-xl font-bold transition-colors shrink-0"
+                className="px-4 py-2 bg-[#FCEBED] hover:bg-red-100 text-[#C9414D] border border-[#C9414D]/30 rounded-xl font-bold transition-colors shrink-0 cursor-pointer"
               >
-                Reset All Demo Data
+                Reset Database
               </button>
             </div>
           </div>

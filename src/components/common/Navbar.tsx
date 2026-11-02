@@ -18,8 +18,7 @@ export const Navbar: React.FC = () => {
   ];
 
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    logout('/');
   };
 
   return (
@@ -51,7 +50,7 @@ export const Navbar: React.FC = () => {
                 to={role === 'admin' ? '/admin/dashboard' : '/dashboard'}
                 className="px-4 py-2 text-xs font-semibold text-white bg-[#612536] hover:bg-[#4C1C2B] rounded-xl transition-all shadow-xs flex items-center gap-1.5"
               >
-                <span>Go to {role === 'admin' ? 'Admin Panel' : 'Dashboard'}</span>
+                <span>Go to Dashboard</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <button
@@ -113,7 +112,7 @@ export const Navbar: React.FC = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full text-center py-2.5 text-xs font-semibold text-white bg-[#612536] rounded-xl"
                 >
-                  Open {role === 'admin' ? 'Admin Panel' : 'Dashboard'}
+                  Open Dashboard
                 </Link>
                 <button
                   onClick={() => {

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { Navbar } from '../../components/common/Navbar';
 import { Footer } from '../../components/common/Footer';
 import { calculateEMI } from '../../lib/calculations/emi';
 import { formatINR } from '../../lib/formatters/currency';
-import { useAuth } from '../../context/AuthContext';
 import {
   ArrowRight,
   ShieldCheck,
@@ -17,46 +15,17 @@ import {
   ChevronRight,
   Home,
   HelpCircle,
-  Eye,
-  EyeOff,
+  TrendingUp,
+  Percent,
 } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  // Hero Quick Login Card State
-  const [loginIdentifier, setLoginIdentifier] = useState('priya');
-  const [loginPassword, setLoginPassword] = useState('password123');
-  const [showPassword, setShowPassword] = useState(false);
-  const [loginLoading, setLoginLoading] = useState(false);
-  const [loginError, setLoginError] = useState('');
-
   // Interactive EMI Calculator State
   const [calcAmount, setCalcAmount] = useState<number>(200000);
   const [calcRate, setCalcRate] = useState<number>(12);
   const [calcTenure, setCalcTenure] = useState<number>(24);
 
   const emiResult = calculateEMI(calcAmount, calcRate, calcTenure);
-
-  const handleHeroLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginLoading(true);
-    setLoginError('');
-
-    const res = await login(loginIdentifier, loginPassword);
-    setLoginLoading(false);
-
-    if (res.success) {
-      if (res.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/dashboard');
-      }
-    } else {
-      setLoginError(res.message || 'Login failed');
-    }
-  };
 
   return (
     <div className="min-h-screen bg-[#F3F5F6] flex flex-col font-sans text-[#172B3A]">
@@ -83,19 +52,19 @@ export const LandingPage: React.FC = () => {
                   Goals, <span className="text-[#612536]">Our Priority</span>
                 </h1>
                 <p className="text-base sm:text-lg text-[#536473] max-w-xl leading-relaxed">
-                  Apply for loans, track your EMIs, and manage your finances all in one place. Fast, secure, and easy.
+                  Apply for loans, track your EMIs, and manage your finances all in one place. Fast, secure, and transparent reducing-balance repayment schedules.
                 </p>
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-4">
-                <Link
-                  to="/register"
+                <a
+                  href="#calculator"
                   className="px-6 py-3.5 bg-[#612536] hover:bg-[#4C1C2B] text-white rounded-xl text-sm font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer"
                 >
-                  <span>Get Started</span>
+                  <span>Calculate EMI</span>
                   <ArrowRight className="w-4 h-4" />
-                </Link>
+                </a>
 
                 <a
                   href="#how-it-works"
@@ -141,9 +110,9 @@ export const LandingPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: Hero Visual & Interactive Login Card */}
+            {/* Right Column: Financial Overview Showcase */}
             <div className="lg:col-span-5 flex flex-col gap-6">
-              {/* House holding visual with handwritten quote */}
+              {/* House holding visual with quote */}
               <div className="relative rounded-2xl overflow-hidden bg-white border border-[#DFE5E9] p-6 shadow-xs">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
@@ -167,81 +136,73 @@ export const LandingPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Quick Login Card */}
-              <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs">
-                <div className="mb-4">
-                  <h3 className="text-lg font-bold text-[#172B3A]">Welcome Back!</h3>
-                  <p className="text-xs text-[#7B8994]">Login to access your account</p>
+              {/* Competitive Interest Rates Showcase Card */}
+              <div className="bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#DFE5E9]">
+                  <div>
+                    <h3 className="text-base font-bold text-[#172B3A]">Transparent Loan Rates</h3>
+                    <p className="text-[11px] text-[#7B8994]">Real-time reducing balance terms</p>
+                  </div>
+                  <span className="text-[11px] font-bold text-[#218568] bg-[#E6F4EE] px-2.5 py-1 rounded-lg">
+                    Zero Hidden Fees
+                  </span>
                 </div>
 
-                {loginError && (
-                  <div className="mb-3 p-2.5 bg-[#FCEBED] border border-[#C9414D]/30 rounded-lg text-xs text-[#C9414D]">
-                    {loginError}
-                  </div>
-                )}
-
-                <form onSubmit={handleHeroLogin} className="space-y-3.5">
-                  <div>
-                    <label className="block text-xs font-semibold text-[#172B3A] mb-1">
-                      Email or Username
-                    </label>
-                    <input
-                      type="text"
-                      value={loginIdentifier}
-                      onChange={(e) => setLoginIdentifier(e.target.value)}
-                      placeholder="e.g. priya or admin"
-                      required
-                      className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536] bg-white"
-                    />
-                  </div>
-
-                  <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <label className="text-xs font-semibold text-[#172B3A]">Password</label>
-                      <Link to="/forgot-password" className="text-[11px] text-[#612536] hover:underline">
-                        Forgot?
-                      </Link>
+                <div className="space-y-2.5 text-xs">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#F5F8FA] border border-[#DFE5E9]">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-[#0D343B] text-white flex items-center justify-center text-xs font-bold">
+                        HL
+                      </div>
+                      <div>
+                        <p className="font-bold text-[#172B3A]">Home Loan</p>
+                        <p className="text-[10px] text-[#7B8994]">Tenure up to 30 yrs</p>
+                      </div>
                     </div>
-                    <div className="relative">
-                      <input
-                        type={showPassword ? 'text' : 'password'}
-                        value={loginPassword}
-                        onChange={(e) => setLoginPassword(e.target.value)}
-                        placeholder="••••••••"
-                        required
-                        className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536] pr-10 bg-white"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 cursor-pointer"
-                      >
-                        {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                      </button>
+                    <div className="text-right">
+                      <p className="font-bold text-[#0D343B]">8.50% - 9.75%</p>
+                      <p className="text-[10px] text-[#218568]">Instant approval</p>
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={loginLoading}
-                    className="w-full py-2.5 bg-[#612536] hover:bg-[#4C1C2B] text-white rounded-xl text-xs font-semibold transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    {loginLoading ? 'Authenticating...' : 'Login'}
-                  </button>
-
-                  <div className="text-center pt-1">
-                    <span className="text-xs text-[#7B8994]">Don't have an account? </span>
-                    <Link to="/register" className="text-xs font-semibold text-[#612536] hover:underline">
-                      Register
-                    </Link>
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#F5F8FA] border border-[#DFE5E9]">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-[#612536] text-white flex items-center justify-center text-xs font-bold">
+                        PL
+                      </div>
+                      <div>
+                        <p className="font-bold text-[#172B3A]">Personal Loan</p>
+                        <p className="text-[10px] text-[#7B8994]">Flexible tenures</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-[#612536]">10.50% - 13.00%</p>
+                      <p className="text-[10px] text-[#218568]">Fast disbursal</p>
+                    </div>
                   </div>
 
-                  {/* Demo Credential Hint */}
-                  <div className="p-2.5 bg-[#EDF2F5] rounded-lg border border-[#DFE5E9] text-[11px] text-[#536473] flex items-center justify-between">
-                    <span>Demo Customer: <strong>priya</strong></span>
-                    <span>Admin: <strong>admin</strong></span>
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#F5F8FA] border border-[#DFE5E9]">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-[#6B751B] text-white flex items-center justify-center text-xs font-bold">
+                        BL
+                      </div>
+                      <div>
+                        <p className="font-bold text-[#172B3A]">Business Finance</p>
+                        <p className="text-[10px] text-[#7B8994]">Working capital</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-[#6B751B]">11.00% - 14.50%</p>
+                      <p className="text-[10px] text-[#218568]">Custom schedule</p>
+                    </div>
                   </div>
-                </form>
+                </div>
+
+                <div className="pt-2 text-center text-xs text-[#536473] bg-[#EDF2F5] p-3 rounded-xl border border-[#DFE5E9]">
+                  <span>Sign in or create an account using </span>
+                  <strong className="text-[#172B3A]">Login</strong> or <strong className="text-[#612536]">Register</strong>
+                  <span> in the top navigation bar.</span>
+                </div>
               </div>
             </div>
           </div>
@@ -266,300 +227,307 @@ export const LandingPage: React.FC = () => {
             </div>
             <div className="flex items-center justify-center gap-2 text-xs font-semibold text-[#172B3A]">
               <CheckCircle2 className="w-4 h-4 text-[#218568]" />
-              <span>Easy Payment Tracking</span>
+              <span>Dedicated Customer Assistance</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 bg-[#F3F5F6]">
+      {/* About LoanEase Section */}
+      <section id="about" className="py-20 bg-white border-b border-[#DFE5E9]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#612536]">
-              About LoanEase
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#153755]">
-              Financial management made simpler.
-            </h2>
-            <p className="text-sm sm:text-base text-[#536473] leading-relaxed">
-              LoanEase was engineered to replace confusing paperwork and opaque calculations.
-              We provide clear monthly breakdowns, accurate reducing-balance calculations, and real-time payment visibility.
-            </p>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Visual Column */}
+            <div className="lg:col-span-5">
+              <div className="relative bg-[#EDF2F5] p-8 rounded-3xl border border-[#DFE5E9] space-y-6">
+                <div className="inline-block px-3 py-1 bg-[#612536] text-white rounded-lg text-xs font-semibold">
+                  About LoanEase
+                </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-6 border border-[#DFE5E9] shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-[#0D343B]/10 text-[#0D343B] flex items-center justify-center mb-4">
-                <FileText className="w-5 h-5" />
+                <h3 className="text-2xl font-bold text-[#153755] leading-snug">
+                  Transforming the loan experience through clarity, technology, and trust.
+                </h3>
+
+                <p className="text-xs text-[#536473] leading-relaxed">
+                  Founded with a vision to eliminate the ambiguity and stress around loan management, LoanEase gives borrowers direct clarity into reducing balance interest, amortization schedules, and real-time payment records.
+                </p>
+
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#DFE5E9]">
+                  <div className="bg-white p-4 rounded-2xl border border-[#DFE5E9]">
+                    <div className="text-2xl font-bold text-[#0D343B] tabular-nums">99.8%</div>
+                    <div className="text-xs text-[#7B8994] mt-0.5">Calculation Precision</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-2xl border border-[#DFE5E9]">
+                    <div className="text-2xl font-bold text-[#6B751B] tabular-nums">₹ 48.5L+</div>
+                    <div className="text-xs text-[#7B8994] mt-0.5">Loans Administered</div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-base font-bold text-[#172B3A] mb-2">Digital Loan Applications</h3>
-              <p className="text-xs text-[#536473] leading-relaxed">
-                Submit requests in minutes without branch queues. Track eligibility, review sanction terms, and receive approved funds with complete audit trails.
-              </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 border border-[#DFE5E9] shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-[#E6F4EE] text-[#218568] flex items-center justify-center mb-4">
-                <Calculator className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-[#172B3A] mb-2">Reducing-Balance EMI Math</h3>
-              <p className="text-xs text-[#536473] leading-relaxed">
-                Know exactly where every rupee goes. Transparent separation of principal and interest components with zero hidden costs.
+            {/* Content Column */}
+            <div className="lg:col-span-7 space-y-6">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#612536]">
+                Our Philosophy
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#172B3A] tracking-tight">
+                Designed for borrowers who value transparency.
+              </h2>
+              <p className="text-sm text-[#536473] leading-relaxed">
+                Traditional lending often obscures how each monthly payment breaks down between principal reduction and accrued interest. LoanEase calculates reducing-balance schedules with complete mathematical accuracy and provides immediate payment confirmations.
               </p>
-            </div>
 
-            <div className="bg-white rounded-2xl p-6 border border-[#DFE5E9] shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-[#612536]/10 text-[#612536] flex items-center justify-center mb-4">
-                <ShieldCheck className="w-5 h-5" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                <div className="p-4 bg-[#F5F8FA] rounded-2xl border border-[#DFE5E9] space-y-2">
+                  <div className="w-8 h-8 rounded-lg bg-[#0D343B]/10 text-[#0D343B] flex items-center justify-center">
+                    <TrendingUp className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-sm font-bold text-[#172B3A]">Transparent Amortization</h4>
+                  <p className="text-xs text-[#536473] leading-relaxed">
+                    View exact breakdowns for every month with transparent principal balance updates.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-[#F5F8FA] rounded-2xl border border-[#DFE5E9] space-y-2">
+                  <div className="w-8 h-8 rounded-lg bg-[#6B751B]/10 text-[#6B751B] flex items-center justify-center">
+                    <Percent className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-sm font-bold text-[#172B3A]">Competitive Terms</h4>
+                  <p className="text-xs text-[#536473] leading-relaxed">
+                    Multiple financing tiers tailored to personal, business, and housing needs.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-base font-bold text-[#172B3A] mb-2">Enterprise Security</h3>
-              <p className="text-xs text-[#536473] leading-relaxed">
-                Role-based access control, cryptographic password hashing, and encrypted financial statements ensure complete confidentiality.
-              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-white border-y border-[#DFE5E9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+      <section id="services" className="py-20 bg-[#F5F8FA] border-b border-[#DFE5E9]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-[#612536]">
-              Comprehensive Services
+              Our Financial Services
             </span>
-            <h2 className="text-3xl font-extrabold text-[#153755]">
-              Everything you need to manage credit
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#172B3A] tracking-tight">
+              Tailored Financial Solutions for Every Milestone
             </h2>
-            <p className="text-xs sm:text-sm text-[#536473]">
-              Four dedicated functional pillars covering your entire loan lifecycle.
+            <p className="text-sm text-[#536473]">
+              Whether buying a home, growing a venture, or pursuing education, LoanEase provides simple, structured borrowing.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Service 1 */}
-            <div className="bg-[#F5F8FA] rounded-2xl p-6 border border-[#DFE5E9] flex flex-col justify-between hover:border-[#612536]/40 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-[#0D343B]/10 text-[#0D343B] flex items-center justify-center mb-4">
-                  <FileText className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-[#172B3A] mb-1">1. Loan Management</h3>
-                <p className="text-xs text-[#536473] leading-relaxed mt-2">
-                  Apply for Personal, Home, Vehicle, and Business loans. Real-time approval updates and document storage.
-                </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-2xl border border-[#DFE5E9] shadow-2xs space-y-4 hover:border-[#612536]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-[#0D343B]/10 text-[#0D343B] flex items-center justify-center">
+                <Home className="w-5 h-5" />
               </div>
-              <Link to="/loans" className="mt-6 inline-flex items-center text-xs font-bold text-[#612536] hover:underline gap-1">
-                Explore Loans <ChevronRight className="w-3.5 h-3.5" />
-              </Link>
+              <h3 className="text-base font-bold text-[#172B3A]">Home Loans</h3>
+              <p className="text-xs text-[#536473] leading-relaxed">
+                Competitive long-term home financing with rates starting from 8.5% p.a. and tenures up to 30 years.
+              </p>
+              <ul className="space-y-1.5 text-xs text-[#536473] pt-2 border-t border-gray-100">
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#218568]" />
+                  <span>Up to ₹ 50,00,000 financing</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#218568]" />
+                  <span>Zero prepayment penalty</span>
+                </li>
+              </ul>
             </div>
 
-            {/* Service 2 */}
-            <div className="bg-[#F5F8FA] rounded-2xl p-6 border border-[#DFE5E9] flex flex-col justify-between hover:border-[#612536]/40 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-[#612536]/10 text-[#612536] flex items-center justify-center mb-4">
-                  <Calculator className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-[#172B3A] mb-1">2. EMI Calculator</h3>
-                <p className="text-xs text-[#536473] leading-relaxed mt-2">
-                  Estimate instalments and total repayments with precision before applying. Test multiple tenure scenarios.
-                </p>
+            <div className="bg-white p-6 rounded-2xl border border-[#DFE5E9] shadow-2xs space-y-4 hover:border-[#612536]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-[#612536]/10 text-[#612536] flex items-center justify-center">
+                <CreditCard className="w-5 h-5" />
               </div>
-              <a href="#calculator" className="mt-6 inline-flex items-center text-xs font-bold text-[#612536] hover:underline gap-1">
-                Try Calculator <ChevronRight className="w-3.5 h-3.5" />
-              </a>
+              <h3 className="text-base font-bold text-[#172B3A]">Personal Loans</h3>
+              <p className="text-xs text-[#536473] leading-relaxed">
+                Quick disbursal loans for life events, medical emergencies, or renovations with minimal paperwork.
+              </p>
+              <ul className="space-y-1.5 text-xs text-[#536473] pt-2 border-t border-gray-100">
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#218568]" />
+                  <span>Disbursal within 24 hours</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#218568]" />
+                  <span>Tenures from 12 to 60 months</span>
+                </li>
+              </ul>
             </div>
 
-            {/* Service 3 */}
-            <div className="bg-[#F5F8FA] rounded-2xl p-6 border border-[#DFE5E9] flex flex-col justify-between hover:border-[#612536]/40 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-[#E6F4EE] text-[#218568] flex items-center justify-center mb-4">
-                  <CreditCard className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-[#172B3A] mb-1">3. Payment Tracking</h3>
-                <p className="text-xs text-[#536473] leading-relaxed mt-2">
-                  Instant receipts for UPI, Net Banking, and card settlements. Due date reminders and ledger reconciliation.
-                </p>
+            <div className="bg-white p-6 rounded-2xl border border-[#DFE5E9] shadow-2xs space-y-4 hover:border-[#612536]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-[#6B751B]/10 text-[#6B751B] flex items-center justify-center">
+                <BarChart3 className="w-5 h-5" />
               </div>
-              <Link to="/payments" className="mt-6 inline-flex items-center text-xs font-bold text-[#612536] hover:underline gap-1">
-                View Payments <ChevronRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {/* Service 4 */}
-            <div className="bg-[#F5F8FA] rounded-2xl p-6 border border-[#DFE5E9] flex flex-col justify-between hover:border-[#612536]/40 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-[#6B751B]/15 text-[#6B751B] flex items-center justify-center mb-4">
-                  <BarChart3 className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-[#172B3A] mb-1">4. Financial Reports</h3>
-                <p className="text-xs text-[#536473] leading-relaxed mt-2">
-                  Comprehensive statement generation, interest certificates for tax deductions, and repayment analytics.
-                </p>
-              </div>
-              <Link to="/dashboard" className="mt-6 inline-flex items-center text-xs font-bold text-[#612536] hover:underline gap-1">
-                Open Dashboard <ChevronRight className="w-3.5 h-3.5" />
-              </Link>
+              <h3 className="text-base font-bold text-[#172B3A]">Business Loans</h3>
+              <p className="text-xs text-[#536473] leading-relaxed">
+                Capital to expand operations, purchase equipment, or manage cash flows with custom repayment schedules.
+              </p>
+              <ul className="space-y-1.5 text-xs text-[#536473] pt-2 border-t border-gray-100">
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#218568]" />
+                  <span>Flexible collateral terms</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#218568]" />
+                  <span>Structured balloon or seasonal EMIs</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 bg-[#F3F5F6]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+      <section id="how-it-works" className="py-20 bg-white border-b border-[#DFE5E9]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-[#612536]">
-              Simple 4-Step Process
+              Simple & Streamlined
             </span>
-            <h2 className="text-3xl font-extrabold text-[#153755]">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#172B3A] tracking-tight">
               How LoanEase Works
             </h2>
-            <p className="text-xs sm:text-sm text-[#536473]">
-              From registration to final repayment, your path is straightforward and transparent.
+            <p className="text-sm text-[#536473]">
+              From calculation to final payment, managing your borrowing requires just four simple steps.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-            <div className="bg-white rounded-2xl p-6 border border-[#DFE5E9] relative shadow-xs">
-              <span className="w-8 h-8 rounded-full bg-[#612536] text-white font-bold text-xs flex items-center justify-center mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-6 bg-[#F5F8FA] rounded-2xl border border-[#DFE5E9] space-y-3 relative">
+              <div className="w-8 h-8 rounded-full bg-[#612536] text-white flex items-center justify-center text-xs font-bold">
                 1
-              </span>
-              <h4 className="text-sm font-bold text-[#172B3A] mb-1">Create Your Account</h4>
+              </div>
+              <h4 className="text-sm font-bold text-[#172B3A]">Calculate Your EMI</h4>
               <p className="text-xs text-[#536473] leading-relaxed">
-                Sign up in under 60 seconds with your email and phone. Instant verification without branch visits.
+                Use our interactive reducing balance calculator below to test tenures and interest rates.
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 border border-[#DFE5E9] relative shadow-xs">
-              <span className="w-8 h-8 rounded-full bg-[#612536] text-white font-bold text-xs flex items-center justify-center mb-4">
+            <div className="p-6 bg-[#F5F8FA] rounded-2xl border border-[#DFE5E9] space-y-3 relative">
+              <div className="w-8 h-8 rounded-full bg-[#0D343B] text-white flex items-center justify-center text-xs font-bold">
                 2
-              </span>
-              <h4 className="text-sm font-bold text-[#172B3A] mb-1">Submit Loan Application</h4>
+              </div>
+              <h4 className="text-sm font-bold text-[#172B3A]">Register Your Account</h4>
               <p className="text-xs text-[#536473] leading-relaxed">
-                Choose loan type, select requested amount, and set desired tenure with immediate EMI estimates.
+                Click Register in the top navigation bar with verified password security checks.
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 border border-[#DFE5E9] relative shadow-xs">
-              <span className="w-8 h-8 rounded-full bg-[#612536] text-white font-bold text-xs flex items-center justify-center mb-4">
+            <div className="p-6 bg-[#F5F8FA] rounded-2xl border border-[#DFE5E9] space-y-3 relative">
+              <div className="w-8 h-8 rounded-full bg-[#6B751B] text-white flex items-center justify-center text-xs font-bold">
                 3
-              </span>
-              <h4 className="text-sm font-bold text-[#172B3A] mb-1">Track Approval & Terms</h4>
+              </div>
+              <h4 className="text-sm font-bold text-[#172B3A]">Underwriting Review</h4>
               <p className="text-xs text-[#536473] leading-relaxed">
-                Monitor credit appraisal in real time. Once approved, review your sanction letter and repayment schedule.
+                Our underwriting team reviews your credit score and generates your amortization schedule.
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 border border-[#DFE5E9] relative shadow-xs">
-              <span className="w-8 h-8 rounded-full bg-[#612536] text-white font-bold text-xs flex items-center justify-center mb-4">
+            <div className="p-6 bg-[#F5F8FA] rounded-2xl border border-[#DFE5E9] space-y-3 relative">
+              <div className="w-8 h-8 rounded-full bg-[#E65327] text-white flex items-center justify-center text-xs font-bold">
                 4
-              </span>
-              <h4 className="text-sm font-bold text-[#172B3A] mb-1">Manage EMIs & Payments</h4>
+              </div>
+              <h4 className="text-sm font-bold text-[#172B3A]">Automated Tracking</h4>
               <p className="text-xs text-[#536473] leading-relaxed">
-                Settle monthly dues via UPI or Net Banking with instant downloadable receipts and updated balances.
+                Pay EMIs online, generate receipts, and track remaining principal balance in real time.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Interactive EMI Calculator Section */}
-      <section id="calculator" className="py-20 bg-white border-t border-[#DFE5E9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-12 space-y-3">
+      {/* EMI Calculator Section */}
+      <section id="calculator" className="py-20 bg-[#F5F8FA] border-b border-[#DFE5E9]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-3xl mx-auto space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-[#612536]">
-              Live Financial Tool
+              Interactive Estimator
             </span>
-            <h2 className="text-3xl font-extrabold text-[#153755]">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#172B3A] tracking-tight">
               Calculate Your Monthly EMI
             </h2>
-            <p className="text-xs sm:text-sm text-[#536473]">
-              Accurate reducing-balance estimation. Adjust the principal, rate, and tenure below.
+            <p className="text-sm text-[#536473]">
+              Plan your finances accurately using reducing-balance formula: EMI = [P × r × (1+r)ⁿ] / [(1+r)ⁿ - 1].
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto bg-[#EDF2F5] rounded-3xl border border-[#DFE5E9] p-6 sm:p-10 shadow-xs">
+          <div className="bg-white rounded-3xl border border-[#DFE5E9] shadow-sm p-6 sm:p-10 max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* Sliders & Inputs */}
+              {/* Sliders Column (7 cols) */}
               <div className="lg:col-span-7 space-y-6">
-                {/* Loan Amount */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-xs">
-                    <label className="font-semibold text-[#172B3A]">Loan Amount (INR)</label>
-                    <span className="font-bold text-[#0D343B] tabular-nums text-sm">
-                      {formatINR(calcAmount)}
-                    </span>
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-xs font-semibold text-[#172B3A]">Loan Principal Amount</label>
+                    <span className="text-sm font-bold text-[#153755] tabular-nums">{formatINR(calcAmount)}</span>
                   </div>
                   <input
                     type="range"
-                    min={20000}
-                    max={2000000}
-                    step={10000}
+                    min="10000"
+                    max="2000000"
+                    step="10000"
                     value={calcAmount}
                     onChange={(e) => setCalcAmount(Number(e.target.value))}
-                    className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-[#612536]"
+                    className="w-full accent-[#612536] cursor-pointer"
                   />
-                  <div className="flex justify-between text-[11px] text-[#7B8994]">
-                    <span>₹20,000</span>
+                  <div className="flex justify-between text-[10px] text-[#7B8994] mt-1">
+                    <span>₹10,000</span>
                     <span>₹20,00,000</span>
                   </div>
                 </div>
 
-                {/* Interest Rate */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-xs">
-                    <label className="font-semibold text-[#172B3A]">Annual Interest Rate (%)</label>
-                    <span className="font-bold text-[#0D343B] tabular-nums text-sm">
-                      {calcRate}% p.a.
-                    </span>
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-xs font-semibold text-[#172B3A]">Annual Interest Rate</label>
+                    <span className="text-sm font-bold text-[#153755] tabular-nums">{calcRate}% p.a.</span>
                   </div>
                   <input
                     type="range"
-                    min={6}
-                    max={24}
-                    step={0.5}
+                    min="5"
+                    max="25"
+                    step="0.5"
                     value={calcRate}
                     onChange={(e) => setCalcRate(Number(e.target.value))}
-                    className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-[#612536]"
+                    className="w-full accent-[#612536] cursor-pointer"
                   />
-                  <div className="flex justify-between text-[11px] text-[#7B8994]">
-                    <span>6%</span>
-                    <span>24%</span>
+                  <div className="flex justify-between text-[10px] text-[#7B8994] mt-1">
+                    <span>5%</span>
+                    <span>25%</span>
                   </div>
                 </div>
 
-                {/* Tenure */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-xs">
-                    <label className="font-semibold text-[#172B3A]">Loan Tenure (Months)</label>
-                    <span className="font-bold text-[#0D343B] tabular-nums text-sm">
-                      {calcTenure} months ({Math.round((calcTenure / 12) * 10) / 10} yrs)
-                    </span>
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-xs font-semibold text-[#172B3A]">Loan Tenure</label>
+                    <span className="text-sm font-bold text-[#153755] tabular-nums">{calcTenure} Months</span>
                   </div>
                   <input
                     type="range"
-                    min={6}
-                    max={60}
-                    step={3}
+                    min="6"
+                    max="120"
+                    step="6"
                     value={calcTenure}
                     onChange={(e) => setCalcTenure(Number(e.target.value))}
-                    className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-[#612536]"
+                    className="w-full accent-[#612536] cursor-pointer"
                   />
-                  <div className="flex justify-between text-[11px] text-[#7B8994]">
-                    <span>6 months</span>
-                    <span>60 months</span>
+                  <div className="flex justify-between text-[10px] text-[#7B8994] mt-1">
+                    <span>6 Mo</span>
+                    <span>120 Mo (10 Yrs)</span>
                   </div>
                 </div>
               </div>
 
-              {/* Result Summary Box */}
-              <div className="lg:col-span-5 bg-white rounded-2xl border border-[#DFE5E9] p-6 shadow-xs space-y-4">
-                <div className="p-4 bg-[#0D343B] rounded-xl text-center text-white">
-                  <span className="text-xs font-semibold text-white/80 uppercase tracking-wider block">
-                    Estimated Monthly EMI
+              {/* Result Summary Card (5 cols) */}
+              <div className="lg:col-span-5 bg-[#EDF2F5] p-6 rounded-2xl border border-[#DFE5E9] space-y-4">
+                <div className="text-center p-4 bg-[#0D343B] text-white rounded-xl shadow-xs">
+                  <span className="text-[11px] uppercase tracking-wider text-white/80 font-semibold block">
+                    Calculated Monthly EMI
                   </span>
-                  <span className="text-3xl font-extrabold text-[#E8EA68] tabular-nums mt-1 block">
+                  <span className="text-3xl font-extrabold text-[#E8EA68] mt-1 block tabular-nums">
                     {formatINR(emiResult.monthlyEmi)}
                   </span>
                   <span className="text-[11px] text-white/75 mt-1 block">
@@ -582,13 +550,11 @@ export const LandingPage: React.FC = () => {
                   </div>
                 </div>
 
-                <Link
-                  to="/register"
-                  className="w-full py-2.5 bg-[#612536] hover:bg-[#4C1C2B] text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer"
-                >
-                  <span>Apply with These Terms</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                <div className="p-3 bg-white rounded-xl border border-[#DFE5E9] text-center text-xs text-[#536473]">
+                  <span>Ready to apply? Use </span>
+                  <strong className="text-[#612536]">Register</strong>
+                  <span> in the top navigation bar to begin.</span>
+                </div>
 
                 <p className="text-[10px] text-center text-[#7B8994]">
                   * Illustrative estimate based on reducing balance. Actual terms finalized during approval.
@@ -610,19 +576,25 @@ export const LandingPage: React.FC = () => {
             Join thousands of satisfied borrowers today.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 pt-4">
-            <Link
-              to="/register"
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="#calculator"
               className="px-6 py-3.5 bg-[#612536] hover:bg-[#4C1C2B] text-white rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-md cursor-pointer"
             >
-              Create Free Account
-            </Link>
-            <Link
-              to="/login"
+              Explore Loan Calculator
+            </a>
+            <a
+              href="#how-it-works"
               className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer"
             >
-              Sign In
-            </Link>
+              Learn How It Works
+            </a>
+          </div>
+
+          <div className="pt-2 text-xs text-[#D9E0E5]/80">
+            <span>To access or create your account, use </span>
+            <strong className="text-white">Login</strong> or <strong className="text-[#E8EA68]">Register</strong>
+            <span> in the navigation bar above.</span>
           </div>
         </div>
       </section>

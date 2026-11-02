@@ -15,15 +15,10 @@ import {
   Menu,
   X,
   PlusCircle,
-  Shield,
-  RotateCcw,
 } from 'lucide-react';
-import { db } from '../../lib/storage/mockDatabase';
-import { useNotification } from '../../context/NotificationContext';
 
 export const CustomerLayout: React.FC = () => {
-  const { user, logout, quickSwitchUser } = useAuth();
-  const { success } = useNotification();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -39,15 +34,8 @@ export const CustomerLayout: React.FC = () => {
     { label: 'Support', to: '/support', icon: HelpCircle },
   ];
 
-  const handleResetData = () => {
-    db.resetAll();
-    success('Data Reset', 'Demonstration dataset restored to factory defaults.');
-    window.location.reload();
-  };
-
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    logout('/');
   };
 
   return (
@@ -68,7 +56,7 @@ export const CustomerLayout: React.FC = () => {
       >
         {/* Brand Header */}
         <div className="p-6 border-b border-white/10 flex items-center justify-between">
-          <Logo variant="light" size="sm" portalSubtitle="Customer Portal" />
+          <Logo variant="light" size="sm" />
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden text-white/70 hover:text-white"
@@ -102,25 +90,11 @@ export const CustomerLayout: React.FC = () => {
           })}
         </nav>
 
-        {/* Quick Demo Switcher & Reset in Sidebar Footer */}
-        <div className="p-4 border-t border-white/10 space-y-2 bg-[#4C1C2B]/60">
-          <div className="text-[11px] text-white/60 font-semibold uppercase tracking-wider px-1">
-            Demo Controls
-          </div>
-          <button
-            onClick={() => {
-              quickSwitchUser('admin');
-              navigate('/admin/dashboard');
-            }}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-medium transition-colors cursor-pointer"
-          >
-            <Shield className="w-3.5 h-3.5 text-[#E8EA68]" />
-            Switch to Admin Panel
-          </button>
-
+        {/* Sidebar Footer Logout */}
+        <div className="p-4 border-t border-white/10 bg-[#4C1C2B]/60">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-white/70 hover:text-[#C9414D] hover:bg-white/5 rounded-lg text-xs font-medium transition-colors cursor-pointer"
+            className="w-full flex items-center gap-2.5 px-3 py-2 text-white/80 hover:text-[#C9414D] hover:bg-white/5 rounded-lg text-xs font-medium transition-colors cursor-pointer"
           >
             <LogOut className="w-4 h-4 shrink-0" />
             <span>Logout</span>
@@ -203,15 +177,6 @@ export const CustomerLayout: React.FC = () => {
                   >
                     Help & Support
                   </NavLink>
-                  <button
-                    onClick={() => {
-                      setProfileDropdownOpen(false);
-                      handleResetData();
-                    }}
-                    className="w-full text-left px-4 py-2 text-[#C28A20] hover:bg-gray-50 font-medium flex items-center gap-2 cursor-pointer"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" /> Reset Demo Data
-                  </button>
                   <div className="border-t border-gray-100 my-1" />
                   <button
                     onClick={() => {

@@ -57,7 +57,7 @@ export const AddLoanModal: React.FC<AddLoanModalProps> = ({ isOpen, onClose, onL
         principalAmount: loanAmount,
         annualInterestRate: interestRate,
         tenureMonths,
-        purpose: `Loan issued via Admin panel for ${loanType} finance. Address: ${address}`,
+        purpose: `Loan issued via LoanEase Administration for ${loanType} finance. Address: ${address}`,
       });
 
       if (res.success && res.data) {

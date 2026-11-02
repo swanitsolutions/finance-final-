@@ -15,12 +15,11 @@ import {
   Menu,
   X,
   Plus,
-  UserCheck,
 } from 'lucide-react';
 import { AddLoanModal } from '../modals/AddLoanModal';
 
 export const AdminLayout: React.FC = () => {
-  const { user, logout, quickSwitchUser } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [addLoanOpen, setAddLoanOpen] = useState(false);
@@ -36,8 +35,7 @@ export const AdminLayout: React.FC = () => {
   ];
 
   const handleLogout = () => {
-    logout();
-    navigate('/');
+    logout('/');
   };
 
   return (
@@ -58,7 +56,7 @@ export const AdminLayout: React.FC = () => {
       >
         {/* Brand Header */}
         <div className="p-6 border-b border-white/10 flex items-center justify-between">
-          <Logo variant="light" size="sm" portalSubtitle="Admin Panel" />
+          <Logo variant="light" size="sm" />
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden text-white/70 hover:text-white"
@@ -92,25 +90,11 @@ export const AdminLayout: React.FC = () => {
           })}
         </nav>
 
-        {/* Sidebar Footer Demo Controls */}
-        <div className="p-4 border-t border-white/10 space-y-2 bg-[#4C1C2B]/60">
-          <div className="text-[11px] text-white/60 font-semibold uppercase tracking-wider px-1">
-            Demo Switcher
-          </div>
-          <button
-            onClick={() => {
-              quickSwitchUser('priya');
-              navigate('/dashboard');
-            }}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-medium transition-colors cursor-pointer"
-          >
-            <UserCheck className="w-3.5 h-3.5 text-[#E8EA68]" />
-            Switch to Customer View
-          </button>
-
+        {/* Sidebar Footer Logout */}
+        <div className="p-4 border-t border-white/10 bg-[#4C1C2B]/60">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-white/70 hover:text-[#C9414D] hover:bg-white/5 rounded-lg text-xs font-medium transition-colors cursor-pointer"
+            className="w-full flex items-center gap-2.5 px-3 py-2 text-white/80 hover:text-[#C9414D] hover:bg-white/5 rounded-lg text-xs font-medium transition-colors cursor-pointer"
           >
             <LogOut className="w-4 h-4 shrink-0" />
             <span>Logout</span>

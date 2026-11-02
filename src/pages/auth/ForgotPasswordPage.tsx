@@ -34,7 +34,7 @@ export const ForgotPasswordPage: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold text-[#172B3A]">Check Your Inbox</h3>
               <p className="text-xs text-[#536473] leading-relaxed">
-                If an account matches <strong>{email}</strong>, we have dispatched a secure password reset link. In this demo environment, you may sign in directly with <strong>password123</strong>.
+                If an account matches <strong>{email}</strong>, we have dispatched secure password reset instructions to your inbox to help you regain access.
               </p>
               <div className="pt-4">
                 <Link

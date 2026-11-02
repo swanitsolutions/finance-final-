@@ -3,16 +3,17 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Logo } from '../../components/common/Logo';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
-import { Eye, EyeOff, Lock, User, ArrowRight, ShieldCheck, UserCheck } from 'lucide-react';
+import { Eye, EyeOff, Lock, User, ArrowRight } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
-  const { login, quickSwitchUser } = useAuth();
-  const { success, error } = useNotification();
+  const { login } = useAuth();
+  const { showCenterModal, error } = useNotification();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [identifier, setIdentifier] = useState('priya');
-  const [password, setPassword] = useState('password123');
+  const registeredId = (location.state as any)?.registeredIdentifier || '';
+  const [identifier, setIdentifier] = useState(registeredId);
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,28 +28,20 @@ export const LoginPage: React.FC = () => {
     setIsLoading(false);
 
     if (res.success) {
-      success('Welcome Back', 'Authentication successful.');
       const from = (location.state as any)?.from?.pathname;
-      if (from) {
-        navigate(from, { replace: true });
-      } else if (res.role === 'admin') {
-        navigate('/admin/dashboard', { replace: true });
-      } else {
-        navigate('/dashboard', { replace: true });
-      }
+      const targetPath = from || (res.role === 'admin' ? '/admin/dashboard' : '/dashboard');
+
+      showCenterModal({
+        type: 'success',
+        title: 'Signed In Successfully!',
+        message: 'Welcome back to LoanEase. Your authenticated financial session is active.',
+        buttonText: 'Open Dashboard',
+        autoCloseMs: 2000,
+        onConfirm: () => navigate(targetPath, { replace: true }),
+      });
     } else {
       setErrorMessage(res.message || 'Invalid credentials.');
       error('Login Failed', res.message || 'Invalid email/username or password.');
-    }
-  };
-
-  const handleAutofill = (type: 'customer' | 'admin') => {
-    if (type === 'customer') {
-      setIdentifier('priya');
-      setPassword('password123');
-    } else {
-      setIdentifier('admin');
-      setPassword('admin123');
     }
   };
 
@@ -63,34 +56,17 @@ export const LoginPage: React.FC = () => {
       <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
         <div className="bg-white py-8 px-6 sm:px-10 rounded-2xl border border-[#DFE5E9] shadow-sm">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#172B3A]">Welcome Back!</h2>
-            <p className="text-xs text-[#536473] mt-1">Log in to access your LoanEase account.</p>
+            <h2 className="text-2xl font-bold text-[#172B3A]">Welcome Back</h2>
+            <p className="text-xs text-[#536473] mt-1">
+              Log in to securely access your LoanEase financial accounts.
+            </p>
           </div>
 
-          {/* Quick Demo Autofill Badges */}
-          <div className="mb-6 p-3 bg-[#F5F8FA] rounded-xl border border-[#DFE5E9]">
-            <p className="text-[11px] font-semibold text-[#7B8994] uppercase tracking-wider mb-2">
-              Quick Test Credentials:
-            </p>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => handleAutofill('customer')}
-                className="flex-1 py-1.5 px-2 bg-white hover:bg-[#F3F5F6] border border-[#DFE5E9] rounded-lg text-xs font-medium text-[#172B3A] flex items-center justify-center gap-1.5 transition-colors"
-              >
-                <UserCheck className="w-3.5 h-3.5 text-[#218568]" />
-                Customer (Priya)
-              </button>
-              <button
-                type="button"
-                onClick={() => handleAutofill('admin')}
-                className="flex-1 py-1.5 px-2 bg-white hover:bg-[#F3F5F6] border border-[#DFE5E9] rounded-lg text-xs font-medium text-[#172B3A] flex items-center justify-center gap-1.5 transition-colors"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-[#612536]" />
-                Admin (Admin)
-              </button>
+          {registeredId && (
+            <div className="mb-4 p-3 bg-[#E6F4EE] border border-[#218568]/30 rounded-xl text-xs text-[#218568]">
+              Account registered successfully! Enter your password to sign in.
             </div>
-          </div>
+          )}
 
           {errorMessage && (
             <div className="mb-4 p-3 bg-[#FCEBED] border border-[#C9414D]/30 rounded-xl text-xs text-[#C9414D]">
@@ -141,7 +117,7 @@ export const LoginPage: React.FC = () => {
                   type="button"
                   aria-label="Toggle password visibility"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#7B8994] hover:text-[#172B3A]"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#7B8994] hover:text-[#172B3A] cursor-pointer"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -163,7 +139,7 @@ export const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2.5 bg-[#612536] hover:bg-[#4C1C2B] text-white rounded-xl text-xs font-semibold transition-colors shadow-xs flex items-center justify-center gap-2"
+              className="w-full py-2.5 bg-[#612536] hover:bg-[#4C1C2B] text-white rounded-xl text-xs font-semibold transition-colors shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {isLoading ? (
                 <>
@@ -172,7 +148,7 @@ export const LoginPage: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <span>Login</span>
+                  <span>Sign In</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
