@@ -7,7 +7,7 @@ import { User, Mail, Phone, Lock, Eye, EyeOff, ArrowRight, Check, Sparkles, Shie
 
 export const RegisterPage: React.FC = () => {
   const { register } = useAuth();
-  const { showCenterModal, showToast } = useNotification();
+  const { showCenterModal, showToast, warning } = useNotification();
   const navigate = useNavigate();
 
   const [fullName, setFullName] = useState('');
@@ -18,6 +18,7 @@ export const RegisterPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState('');
 
@@ -70,14 +71,15 @@ export const RegisterPage: React.FC = () => {
 
     const suggested = chars.sort(() => Math.random() - 0.5).join('');
     setPassword(suggested);
-    setConfirmPassword(suggested);
+    // User must refill the confirm password manually (no auto fill)
+    setConfirmPassword('');
     setShowPassword(true);
     setFormError('');
     showToast({
       type: 'info',
       title: 'Strong Password Suggested',
-      message: 'Generated a secure 12-character password and filled confirmation.',
-      duration: 3500,
+      message: 'Generated a secure 12-character password. Please re-type it in Confirm Password.',
+      duration: 4000,
     });
   };
 
@@ -86,17 +88,23 @@ export const RegisterPage: React.FC = () => {
     setFormError('');
 
     if (!isStrongPassword) {
-      setFormError('Please ensure your password satisfies all 5 strength criteria, or click "Suggest Strong Password".');
+      const msg = 'Please ensure your password satisfies all 5 strength criteria, or click "Suggest Strong Password".';
+      setFormError(msg);
+      warning('Password Security Warning', msg);
       return;
     }
 
     if (password !== confirmPassword) {
-      setFormError('Passwords do not match. Please verify confirmation password.');
+      const msg = 'Passwords do not match. Please refill and verify your confirm password field.';
+      setFormError(msg);
+      warning('Password Mismatch', msg);
       return;
     }
 
     if (!agreeTerms) {
-      setFormError('You must agree to the Terms of Service and Privacy Policy to create an account.');
+      const msg = 'You must agree to the Terms of Service and Privacy Policy to create an account.';
+      setFormError(msg);
+      warning('Terms Required', msg);
       return;
     }
 
@@ -251,19 +259,40 @@ export const RegisterPage: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Create secure password"
                     required
-                    className="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
+                    autoComplete="new-password"
+                    className="w-full pl-9 pr-10 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
                   />
+                  <button
+                    type="button"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#7B8994] hover:text-[#172B3A] cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
 
                 <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#7B8994]">
+                    <Lock className="w-4 h-4" />
+                  </div>
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showConfirmPassword ? 'text' : 'password'}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm password"
+                    placeholder="Refill to confirm password"
                     required
-                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
+                    autoComplete="new-password"
+                    className="w-full pl-9 pr-10 py-2 text-xs rounded-xl border border-[#DFE5E9] bg-white text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#612536]/30 focus:border-[#612536]"
                   />
+                  <button
+                    type="button"
+                    aria-label={showConfirmPassword ? 'Hide confirmation password' : 'Show confirmation password'}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#7B8994] hover:text-[#172B3A] cursor-pointer"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
               </div>
 
@@ -331,19 +360,6 @@ export const RegisterPage: React.FC = () => {
                     <span>One special symbol (!@#$%^&*)</span>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-2 mt-2">
-                <input
-                  type="checkbox"
-                  id="show-pass"
-                  checked={showPassword}
-                  onChange={(e) => setShowPassword(e.target.checked)}
-                  className="rounded border-[#DFE5E9] text-[#612536] focus:ring-[#612536]"
-                />
-                <label htmlFor="show-pass" className="text-xs text-[#536473] cursor-pointer">
-                  Show password text
-                </label>
               </div>
             </div>
 

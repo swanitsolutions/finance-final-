@@ -178,41 +178,75 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
         </div>
       )}
 
-      {/* Toast container */}
+      {/* Top Center Warning Pop Up Container */}
+      {toasts.filter((t) => t.type === 'warning').length > 0 && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2.5 max-w-md w-full px-4 pointer-events-none items-center">
+          {toasts
+            .filter((t) => t.type === 'warning')
+            .map((toast) => (
+              <div
+                key={toast.id}
+                role="alert"
+                className="pointer-events-auto w-full flex items-start gap-3.5 p-4 rounded-2xl border-2 border-[#C28A20] bg-[#FFF5DF] text-[#7A4B05] shadow-2xl transition-all animate-in fade-in slide-in-from-top-4 duration-300"
+              >
+                <div className="shrink-0 mt-0.5 p-1 bg-[#E7A23B]/20 rounded-lg text-[#C28A20]">
+                  <AlertTriangle className="w-5 h-5 text-[#C28A20]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-[#A56807] mb-0.5">Warning Alert</p>
+                  <p className="text-sm font-bold text-[#4D3004]">{toast.title}</p>
+                  {toast.message && (
+                    <p className="text-xs mt-1 text-[#6A4305] leading-relaxed">
+                      {toast.message}
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={() => removeToast(toast.id)}
+                  className="shrink-0 text-[#A56807] hover:text-[#4D3004] p-1 rounded-lg hover:bg-[#E7A23B]/20 transition-colors cursor-pointer"
+                  aria-label="Close warning"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+        </div>
+      )}
+
+      {/* Standard Toast container (Success, Error, Info) */}
       <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0">
-        {toasts.map((toast) => (
-          <div
-            key={toast.id}
-            role="status"
-            className={`pointer-events-auto flex items-start gap-3 p-4 rounded-xl border shadow-lg transition-all animate-in fade-in slide-in-from-bottom-3 duration-200 ${
-              toast.type === 'success'
-                ? 'bg-[#E7F7F0] border-[#159A78]/30 text-[#0f5c49]'
-                : toast.type === 'error'
-                ? 'bg-[#FFF0F1] border-[#DC5263]/30 text-[#9b2130]'
-                : toast.type === 'warning'
-                ? 'bg-[#FFF5DF] border-[#E7A23B]/30 text-[#8c5609]'
-                : 'bg-[#F4F8FC] border-[#2588D8]/30 text-[#12365A]'
-            }`}
-          >
-            <div className="shrink-0 mt-0.5">
-              {toast.type === 'success' && <CheckCircle2 className="w-5 h-5 text-[#159A78]" />}
-              {toast.type === 'error' && <AlertCircle className="w-5 h-5 text-[#DC5263]" />}
-              {toast.type === 'warning' && <AlertTriangle className="w-5 h-5 text-[#E7A23B]" />}
-              {toast.type === 'info' && <Info className="w-5 h-5 text-[#2588D8]" />}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold">{toast.title}</p>
-              {toast.message && <p className="text-xs mt-0.5 opacity-90 leading-relaxed">{toast.message}</p>}
-            </div>
-            <button
-              onClick={() => removeToast(toast.id)}
-              className="shrink-0 text-gray-400 hover:text-gray-700 p-0.5 rounded transition-colors"
-              aria-label="Close notification"
+        {toasts
+          .filter((t) => t.type !== 'warning')
+          .map((toast) => (
+            <div
+              key={toast.id}
+              role="status"
+              className={`pointer-events-auto flex items-start gap-3 p-4 rounded-xl border shadow-lg transition-all animate-in fade-in slide-in-from-bottom-3 duration-200 ${
+                toast.type === 'success'
+                  ? 'bg-[#E7F7F0] border-[#159A78]/30 text-[#0f5c49]'
+                  : toast.type === 'error'
+                  ? 'bg-[#FFF0F1] border-[#DC5263]/30 text-[#9b2130]'
+                  : 'bg-[#F4F8FC] border-[#2588D8]/30 text-[#12365A]'
+              }`}
             >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        ))}
+              <div className="shrink-0 mt-0.5">
+                {toast.type === 'success' && <CheckCircle2 className="w-5 h-5 text-[#159A78]" />}
+                {toast.type === 'error' && <AlertCircle className="w-5 h-5 text-[#DC5263]" />}
+                {toast.type === 'info' && <Info className="w-5 h-5 text-[#2588D8]" />}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold">{toast.title}</p>
+                {toast.message && <p className="text-xs mt-0.5 opacity-90 leading-relaxed">{toast.message}</p>}
+              </div>
+              <button
+                onClick={() => removeToast(toast.id)}
+                className="shrink-0 text-gray-400 hover:text-gray-700 p-0.5 rounded transition-colors"
+                aria-label="Close notification"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
       </div>
     </NotificationContext.Provider>
   );
